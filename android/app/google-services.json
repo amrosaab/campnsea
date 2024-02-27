@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "403420833771",
+    "project_id": "campnsea-5b32c",
+    "storage_bucket": "campnsea-5b32c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:403420833771:android:1194b5e33bb12ae9c79bae",
+        "android_client_info": {
+          "package_name": "campnsea.android.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "403420833771-rg0or71a833q32uoshh4s68strqfo9hm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "campnsea.android.app",
+            "certificate_hash": "69ef9595b079d8562a19743b7e5cbc1c8a162953"
+          }
+        },
+        {
+          "client_id": "403420833771-rpsj1af4k98rpqp1e74n5amr8lj90bnv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGJdIm5x9g3EirY83o1TpbY_Omd5Lslb8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "403420833771-rpsj1af4k98rpqp1e74n5amr8lj90bnv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "403420833771-3bihvhcedbcm174cb3l3tqurvmlv0t9n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ios.app.campnsea",
+                "app_store_id": "1450508421"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
