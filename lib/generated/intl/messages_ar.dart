@@ -77,7 +77,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m26(total) => "الكمية: ${total}";
 
-  static String m27(percent) => "بيع ${percent} ٪";
+  static String m27(percent) => "خصم ${percent} ٪";
 
   static String m28(second) => "${second} ثواني ماضية";
 
