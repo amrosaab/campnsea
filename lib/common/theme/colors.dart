@@ -4,6 +4,7 @@ import '../config.dart';
 import '../tools.dart';
 
 const kEmptyColor = 0x0D000000;
+const kGreyColor = Color(0xFFF1F1F1);
 
 /// Color env config
 Color? get darkBackgroundColor =>

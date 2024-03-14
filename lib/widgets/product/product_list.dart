@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../common/config.dart'
     show kProductCard, kProductDetail, kSaleOffProduct;
 import '../../common/constants.dart';
+import '../../common/extensions/theme_mode_ext.dart';
 import '../../common/tools.dart';
 import '../../generated/l10n.dart';
+import '../../models/app_model.dart';
 import '../../models/index.dart' show Product;
 import '../../modules/dynamic_layout/config/product_config.dart';
 import '../../modules/dynamic_layout/helper/helper.dart';
@@ -119,6 +122,7 @@ class _ProductListState extends State<ProductList> {
 
   @override
   Widget build(BuildContext context) {
+    final appModel = context.read<AppModel>();
     final screenSize = MediaQuery.of(context).size;
     final isTablet = Tools.isTablet(MediaQuery.of(context));
 
@@ -214,29 +218,32 @@ class _ProductListState extends State<ProductList> {
       onRefresh: _onRefresh,
       onLoading: _onLoading,
       footer: kCustomFooter(context),
-      child: CustomScrollView(
-        controller: scrollController,
-        slivers: <Widget>[
-          if (widget.appbar != null)
-            SliverAppBar(
-              primary: false,
-              titleSpacing: 10,
-              backgroundColor: Theme.of(context).colorScheme.background,
-              toolbarHeight: 44,
-              elevation: 1.0,
-              pinned: true,
-              floating: false,
-              leadingWidth: 0,
-              leading: const SizedBox(),
-              title: widget.appbar,
-              actions: null,
-            ),
-          SliverToBoxAdapter(
-              child: Column(
-            children: widget.header ?? [],
-          )),
-          typeList,
-        ],
+      child: ColoredBox(
+        color: appModel.themeMode.isLight ? kGreyColor : Theme.of(context).colorScheme.background,
+        child: CustomScrollView(        
+          controller: scrollController,
+          slivers: <Widget>[
+            if (widget.appbar != null)
+              SliverAppBar(
+                primary: false,
+                titleSpacing: 10,
+                backgroundColor: Theme.of(context).colorScheme.background,
+                toolbarHeight: 44,
+                elevation: 1.0,
+                pinned: true,
+                floating: false,
+                leadingWidth: 0,
+                leading: const SizedBox(),
+                title: widget.appbar,
+                actions: null,
+              ),
+            SliverToBoxAdapter(
+                child: Column(
+              children: widget.header ?? [],
+            )),
+            typeList,
+          ],
+        ),
       ),
     );
   }
