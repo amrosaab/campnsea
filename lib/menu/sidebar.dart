@@ -67,7 +67,7 @@ class MenuBarState extends State<SideBarMenu> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (drawer.logo != null) ...[
+              if (drawer.logo != null)
                 Container(
                   color: drawer.logoConfig.backgroundColor != null
                       ? HexColor(drawer.logoConfig.backgroundColor)
@@ -87,8 +87,6 @@ class MenuBarState extends State<SideBarMenu> {
                     imageUrl: drawer.logo as String,
                   ),
                 ),
-                const Divider(),
-              ],
               ...List.generate(
                 drawer.items?.length ?? 0,
                 (index) {
