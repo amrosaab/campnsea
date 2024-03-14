@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_single_quotes, lines_longer_than_80_chars final
 Map<String, dynamic> environment = {
-  "appConfig": "http://shopify.empowerkw.com/shops/campnsea.com/config_ar.json",
+  "appConfig": "https://raw.githubusercontent.com/campnsea/CampnseaApp/main/config_ar.json",
   "serverConfig": {
     'type': 'shopify',
 
