@@ -25,6 +25,10 @@ class _HomeScreenState extends BaseScreen<HomeScreen> {
   // @override
   // bool get wantKeepAlive => true;
 
+   DrawerMenuConfig get drawer =>
+      Provider.of<AppModel>(context, listen: false).appConfig?.drawer ??
+      kDefaultDrawer;
+
   @override
   void dispose() {
     printLog('[Home] dispose');
@@ -35,6 +39,16 @@ class _HomeScreenState extends BaseScreen<HomeScreen> {
   void initState() {
     printLog('[Home] initState');
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final logo = drawer.logo;
+    if (logo != null && logo.isNotEmpty) {
+      precacheImage(Image.network(logo).image, context);
+    }
   }
 
   void afterClosePopup(int updatedTime) {
