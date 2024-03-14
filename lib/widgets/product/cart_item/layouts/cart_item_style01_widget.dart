@@ -37,12 +37,12 @@ class CartItemStyle01Widget extends StatelessWidget {
           (stateUI.product.store?.name != null &&
               stateUI.product.store!.name!.trim().isNotEmpty))
         const SizedBox(height: 10),
-      if (!stateUI.inStock || stateUI.isOnBackorder) const SizedBox(height: 5),
-      if (stateUI.isOnBackorder)
-        Text(S.of(context).backOrder,
-            style: TextStyle(
-              color: kStockColor.backorder,
-            )),
+      // if (!stateUI.inStock || stateUI.isOnBackorder) const SizedBox(height: 5),
+      // if (stateUI.isOnBackorder)
+      //   Text(S.of(context).backOrder,
+      //       style: TextStyle(
+      //         color: kStockColor.backorder,
+      //       )),
       if (!stateUI.isOnBackorder && !stateUI.inStock)
         Text(
           S.of(context).outOfStock,
