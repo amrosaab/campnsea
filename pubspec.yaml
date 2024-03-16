@@ -3,7 +3,7 @@ publish_to: "none"
 description: Mobile commerce app by Flutter
 
 # Release version: v3.13.0 (Do not change this line)
-version: 5.9.1+62
+version: 5.9.2+63
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -204,7 +204,6 @@ dependencies:
   in_app_update: 4.1.4
 
   cupertino_icons: ^1.0.0
-  flutter_multi_formatter: ^2.12.4
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1
