@@ -1152,9 +1152,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "startShopping": MessageLookupByLibrary.simpleMessage("تصفح المنتجات"),
         "state": MessageLookupByLibrary.simpleMessage("حالة"),
         "stateIsRequired": MessageLookupByLibrary.simpleMessage(
-            "خانة المحافظة / الولاية / المقاطعة مطلوبة"),
+            "خانة المحافظة مطلوبة"),
         "stateProvince":
-            MessageLookupByLibrary.simpleMessage("المحافظة/الولاية"),
+            MessageLookupByLibrary.simpleMessage("المحافظة"),
         "status": MessageLookupByLibrary.simpleMessage("الحالة"),
         "stock": MessageLookupByLibrary.simpleMessage("المخزون"),
         "stockQuantity": MessageLookupByLibrary.simpleMessage("كمية المخزون"),

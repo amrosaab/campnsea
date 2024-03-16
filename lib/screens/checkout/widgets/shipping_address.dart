@@ -502,18 +502,14 @@ class _ShippingAddressState extends State<ShippingAddress> {
               : null,
           decoration: InputDecoration(
             labelText: getFieldLabel(currentFieldType),
-            prefixIcon: Padding(
-              padding: const EdgeInsets.all(0),
-              child: Text(
-                kPhoneNumberConfig.dialCodeDefault,
-              ),
+            prefixText: currentFieldType == AddressFieldType.phoneNumber
+                ? '${kPhoneNumberConfig.dialCodeDefault} '
+                : null,
+            prefixStyle: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface,
+              fontSize: 16,
             ),
           ),
-          inputFormatters: [
-            MaskedInputFormatter(
-              kPhoneNumberConfig.phoneNumberFormat,
-            ),
-          ],
           keyboardType: getKeyboardType(currentFieldType),
           textCapitalization: TextCapitalization.words,
           textInputAction:
