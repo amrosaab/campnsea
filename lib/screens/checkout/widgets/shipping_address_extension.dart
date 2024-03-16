@@ -410,7 +410,7 @@ extension on _ShippingAddressState {
     if (val != null && type == AddressFieldType.email) {
       return validateEmail(val);
     }
-    if (val != null && type == AddressFieldType.zipCode) {
+    if (val != null && type == AddressFieldType.phoneNumber) {
       return validatePhoneNumber(val);
     }
     return null;
