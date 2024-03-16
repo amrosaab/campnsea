@@ -14,6 +14,7 @@ class Configurations {
   static bool _defaultDarkTheme = DefaultConfig.defaultDarkTheme;
   static String _countryCodeDefault = DefaultConfig.countryCodeDefault;
   static String _dialCodeDefault = DefaultConfig.dialCodeDefault;
+  static String _phoneNumberFormat = DefaultConfig.phoneNumberFormat;
   static String _nameDefault = DefaultConfig.nameDefault;
   static Map _advanceConfig = DefaultConfig.advanceConfig;
   static AppRatingConfig _appRatingConfig =
@@ -108,6 +109,8 @@ class Configurations {
   static String get countryCodeDefault => _countryCodeDefault;
 
   static String get dialCodeDefault => _dialCodeDefault;
+
+  static String get phoneNumberFormat => _phoneNumberFormat;
 
   static String get nameDefault => _nameDefault;
 
@@ -262,6 +265,7 @@ class Configurations {
         : DefaultConfig.advanceConfig;
     _countryCodeDefault = DefaultConfig.countryCodeDefault;
     _dialCodeDefault = DefaultConfig.dialCodeDefault;
+    _phoneNumberFormat = DefaultConfig.phoneNumberFormat;
     _nameDefault = DefaultConfig.nameDefault;
     _defaultSettings =
         value['defaultSettings'] ?? DefaultConfig.defaultSettings;

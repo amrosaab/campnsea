@@ -43,6 +43,10 @@ class LoginSMSConstants {
       Configurations.loginSMSConstants['dialCodeDefault'] ??
       Configurations.dialCodeDefault;
 
+  static String get phoneNumberFormat =>
+      Configurations.loginSMSConstants['phoneNumberFormat'] ??
+          Configurations.phoneNumberFormat;
+
   static String get nameDefault =>
       Configurations.loginSMSConstants['nameDefault'] ??
       Configurations.nameDefault;
