@@ -3,6 +3,7 @@ import 'package:country_pickers/country.dart' as picker_country;
 import 'package:country_pickers/country_pickers.dart' as picker;
 import 'package:flutter/cupertino.dart' show CupertinoIcons;
 import 'package:flutter/material.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:provider/provider.dart';
 
@@ -501,7 +502,18 @@ class _ShippingAddressState extends State<ShippingAddress> {
               : null,
           decoration: InputDecoration(
             labelText: getFieldLabel(currentFieldType),
+            prefixIcon: Padding(
+              padding: const EdgeInsets.all(0),
+              child: Text(
+                kPhoneNumberConfig.dialCodeDefault,
+              ),
+            ),
           ),
+          inputFormatters: [
+            MaskedInputFormatter(
+              kPhoneNumberConfig.phoneNumberFormat,
+            ),
+          ],
           keyboardType: getKeyboardType(currentFieldType),
           textCapitalization: TextCapitalization.words,
           textInputAction:

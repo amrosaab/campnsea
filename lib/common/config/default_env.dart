@@ -13,6 +13,7 @@ class DefaultConfig {
   static bool defaultDarkTheme = false;
   static String countryCodeDefault = 'VN';
   static String dialCodeDefault = '+84';
+  static String phoneNumberFormat = '#### ####';
   static String nameDefault = 'Vietnam';
   static Map<String, dynamic> phoneNumberConfig = {
     'enable': false,

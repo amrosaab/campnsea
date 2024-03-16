@@ -8,6 +8,7 @@ class PhoneNumberConfig {
   final bool enablePhoneNumberValidation;
   final String countryCodeDefault;
   final String dialCodeDefault;
+  final String phoneNumberFormat;
   final bool useInternationalFormat;
   final bool showCountryFlag;
   final List<String> customCountryList;
@@ -19,6 +20,7 @@ class PhoneNumberConfig {
     this.enablePhoneNumberValidation = false,
     this.countryCodeDefault = 'VN',
     this.dialCodeDefault = '+84',
+    this.phoneNumberFormat = '#### ####',
     this.useInternationalFormat = true,
     this.showCountryFlag = true,
     this.customCountryList = const [],
@@ -33,6 +35,7 @@ class PhoneNumberConfig {
           json['enable'] ?? json['enablePhoneNumberValidation'] ?? false,
       countryCodeDefault: json['countryCodeDefault'] ?? 'VN',
       dialCodeDefault: json['dialCodeDefault'] ?? '+84',
+      phoneNumberFormat: json['phoneNumberFormat'] ?? '#### ####',
       useInternationalFormat: json['useInternationalFormat'] ?? true,
       showCountryFlag: json['showCountryFlag'] ?? true,
       customCountryList: json['customCountryList'] is List
@@ -49,6 +52,7 @@ class PhoneNumberConfig {
     data['enable'] = enablePhoneNumberValidation;
     data['countryCodeDefault'] = countryCodeDefault;
     data['dialCodeDefault'] = dialCodeDefault;
+    data['phoneNumberFormat'] = phoneNumberFormat;
     data['useInternationalFormat'] = useInternationalFormat;
     data['showCountryFlag'] = showCountryFlag;
     data['customCountryList'] = customCountryList;
@@ -62,6 +66,7 @@ class PhoneNumberConfig {
     bool? enablePhoneNumberValidation,
     String? countryCodeDefault,
     String? dialCodeDefault,
+    String? phoneNumberFormat,
     bool? useInternationalFormat,
     bool? showCountryFlag,
     List<String>? customCountryList,
@@ -74,6 +79,7 @@ class PhoneNumberConfig {
           enablePhoneNumberValidation ?? this.enablePhoneNumberValidation,
       countryCodeDefault: countryCodeDefault ?? this.countryCodeDefault,
       dialCodeDefault: dialCodeDefault ?? this.dialCodeDefault,
+      phoneNumberFormat: phoneNumberFormat ?? this.phoneNumberFormat,
       useInternationalFormat:
           useInternationalFormat ?? this.useInternationalFormat,
       showCountryFlag: showCountryFlag ?? this.showCountryFlag,

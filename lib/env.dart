@@ -20,12 +20,14 @@ Map<String, dynamic> environment = {
   "loginSMSConstants": {
     "countryCodeDefault": "KW",
     "dialCodeDefault": "+965",
+    "phoneNumberFormat": '#### ####',
     "nameDefault": "Kuwait",
   },
   "phoneNumberConfig": {
     "enablePhoneNumberValidation": false,
     "countryCodeDefault": "KW",
     "dialCodeDefault": "+965",
+    "phoneNumberFormat": '#### ####',
     "useInternationalFormat": true,
     "selectorFlagAsPrefixIcon": true,
     "showCountryFlag": true,
