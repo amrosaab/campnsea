@@ -112,7 +112,7 @@ class _CheckoutState extends BaseScreen<Checkout> {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      tabIndex >= 0
+                      tabIndex == 0
                           ? ClipRRect(
                               borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(2.0),
@@ -155,7 +155,7 @@ class _CheckoutState extends BaseScreen<Checkout> {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      tabIndex >= 1
+                      tabIndex == 1
                           ? Container(
                               height: 3.0,
                               color: Theme.of(context).primaryColor)
