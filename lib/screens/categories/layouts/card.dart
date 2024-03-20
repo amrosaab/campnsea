@@ -183,9 +183,6 @@ class _StateCardCategories extends BaseScreen<CardCategories> {
           itemBuilder: (_, index) {
             final category = categories[index];
 
-            // TODO(fahjan): view all categories, or if the category has a sub
-            if (!hasChildren(category.id)) return const SizedBox();
-
             return Parent(
               parent: _CategoryCardItem(
                 category,
