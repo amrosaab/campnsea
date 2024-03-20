@@ -3,7 +3,7 @@ publish_to: "none"
 description: Mobile commerce app by Flutter
 
 # Release version: v3.13.0 (Do not change this line)
-version: 5.9.2+63
+version: 5.9.3+64
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
