@@ -357,7 +357,7 @@ Map<String, dynamic> environment = {
 
   /// ➡️ lib/common/onboarding.dart
   "onBoardingConfig": {
-    'enableOnBoarding': true,
+    'enableOnBoarding': false,
     'version': 1,
     'autoCropImageByDesign': true,
     'isOnlyShowOnFirstTime': true,
