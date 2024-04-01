@@ -13,6 +13,7 @@ import '../../widgets/product/product_bottom_sheet.dart';
 import '../base_screen.dart';
 import 'review_screen.dart';
 import 'widgets/payment_methods.dart';
+import 'widgets/selected_country_model.dart';
 import 'widgets/shipping_address.dart';
 import 'widgets/success.dart';
 
@@ -329,9 +330,14 @@ class _CheckoutState extends BaseScreen<Checkout> {
       case 0:
         return SizedBox(
           key: const ValueKey(0),
-          child: ShippingAddress(onNext: () {
-            Future.delayed(Duration.zero, goToShippingTab);
-          }),
+          child: ChangeNotifierProvider(
+            create: (context) => SelectedCountryModel(),
+            child: ShippingAddress(
+              onNext: () {
+                Future.delayed(Duration.zero, goToShippingTab);
+              },
+            ),
+          ),
         );
       case 1:
         return SizedBox(

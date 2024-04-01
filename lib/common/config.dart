@@ -10,6 +10,7 @@ import 'config/configuration_utils.dart';
 import 'config/loading/index.dart';
 import 'config/models/address_field_config.dart';
 import 'config/models/app_rating_config.dart';
+import 'config/models/country_address_fields_config.dart';
 import 'config/models/index.dart';
 import 'config/models/onboarding_config.dart';
 import 'config/models/vendor_config.dart';

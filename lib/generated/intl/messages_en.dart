@@ -311,8 +311,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "chooseType": MessageLookupByLibrary.simpleMessage("Choose type"),
         "chooseYourPaymentMethod":
             MessageLookupByLibrary.simpleMessage("Choose your payment method"),
-        "city": MessageLookupByLibrary.simpleMessage("Area"),
-        "cityIsRequired":
+    "city": MessageLookupByLibrary.simpleMessage("City"),
+    "area": MessageLookupByLibrary.simpleMessage("Area"),
+    "cityIsRequired":
         MessageLookupByLibrary.simpleMessage("The area field is required"),
         "clear": MessageLookupByLibrary.simpleMessage("Clear"),
         "clearCart": MessageLookupByLibrary.simpleMessage("Clear Cart"),
@@ -1202,6 +1203,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "storeVacation": MessageLookupByLibrary.simpleMessage("Store vacation"),
         "stores": MessageLookupByLibrary.simpleMessage("Stores"),
         "street": MessageLookupByLibrary.simpleMessage("Floor"),
+    "fullAddress": MessageLookupByLibrary.simpleMessage("Full Address"),
+    "FullAddressIsRequired": MessageLookupByLibrary.simpleMessage("The full address field is required"),
     "street2": MessageLookupByLibrary.simpleMessage("Street 2"),
     "streetIsRequired":
     MessageLookupByLibrary.simpleMessage("The floor field is required"),
@@ -1405,8 +1408,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Your product is under review"),
         "yourUsernameEmail":
             MessageLookupByLibrary.simpleMessage("Your username or email"),
-        "zipCode": MessageLookupByLibrary.simpleMessage("Flat"),
-        "zipCodeIsRequired": MessageLookupByLibrary.simpleMessage(
+    "flat": MessageLookupByLibrary.simpleMessage("Flat"),
+    "zipCode": MessageLookupByLibrary.simpleMessage("Zip Code"),
+    "zipCodeIsRequired": MessageLookupByLibrary.simpleMessage(
             "The zip code field is required"),
         "sureThatProductExists": MessageLookupByLibrary.simpleMessage(
             "Check that the products in the cart are still available"),
