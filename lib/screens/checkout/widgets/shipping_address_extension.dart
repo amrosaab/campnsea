@@ -26,6 +26,8 @@ extension on _ShippingAddressState {
     _textControllers[AddressFieldType.city]?.text = address?.city?.trim() ?? '';
     _textControllers[AddressFieldType.block2]?.text =
         address?.block2?.trim() ?? '';
+    _textControllers[AddressFieldType.block2]?.text =
+        address?.block2?.trim() ?? '';
     _textControllers[AddressFieldType.apartment]?.text =
         address?.apartment?.trim() ?? '';
     _textControllers[AddressFieldType.block]?.text =
@@ -39,7 +41,7 @@ extension on _ShippingAddressState {
 
   bool checkToSave() {
     var listAddress = <Address>[];
-    var data = UserBox().addresses;
+    var data = AddressBox().addresses;
     if (data.isNotEmpty) {
       listAddress.addAll(data);
     }
@@ -83,13 +85,13 @@ extension on _ShippingAddressState {
     if (address != null) {
       listAddress.add(address);
     }
-    var listData = UserBox().addresses;
+    var listData = AddressBox().addresses;
     if (listData.isNotEmpty) {
       for (var item in listData) {
         listAddress.add(item);
       }
     }
-    UserBox().addresses = listAddress;
+    AddressBox().addresses = listAddress;
     FlashHelper.message(
       context,
       message: S.of(context).yourAddressHasBeenSaved,
@@ -127,7 +129,10 @@ extension on _ShippingAddressState {
 
         await Future.delayed(const Duration(milliseconds: 1000));
 
-        Provider.of<CartModel>(context, listen: false).setAddress(address);
+        Provider.of<CartModel>(context, listen: false).setAddress(
+          address,
+          isoCode: selectedCountryModel.selectedIsoCode,
+        );
         _loadShipping(beforehand: false);
         widget.onNext!();
       } else {
@@ -448,8 +453,10 @@ extension on _ShippingAddressState {
                 if (!checkToSave()) return;
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  Provider.of<CartModel>(context, listen: false)
-                      .setAddress(address);
+                  Provider.of<CartModel>(context, listen: false).setAddress(
+                    address,
+                    isoCode: selectedCountryModel.selectedIsoCode,
+                  );
                   saveDataToLocal();
                 } else {
                   FlashHelper.errorMessage(

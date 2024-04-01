@@ -33,7 +33,7 @@ class CartModelShopify
   @override
   Future<void> initData() async {
     resetValues();
-    await getAddress();
+    await getAddress(kPhoneNumberConfig.countryCodeDefault);
     getCartInLocal();
     getCurrency();
   }
@@ -238,9 +238,12 @@ class CartModelShopify
   }
 
   @override
-  void setAddress(data) {
+  void setAddress(data, {String? isoCode}) {
     address = data;
-    saveShippingAddress(data);
+
+    final selectedIsoCode = isoCode ?? kPhoneNumberConfig.countryCodeDefault;
+    saveShippingAddress(data, selectedIsoCode);
+
     // it's a guest checkout or user not logged in
     if (checkout?.email == null) {
       Services().api.updateCheckoutEmail(

@@ -274,6 +274,7 @@ class UserModel with ChangeNotifier {
       delegate?.onLoaded(User()..cookie = _getGenerateCookie());
     }
 
+    AddressBox().cleanUpForLogout();
     UserBox().cleanUpForLogout();
     notifyListeners();
 

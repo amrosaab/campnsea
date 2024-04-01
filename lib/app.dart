@@ -301,7 +301,7 @@ class AppState extends State<App>
     }
 
     /// Preload address.
-    await cartModel.model.getAddress();
+    await cartModel.model.getAddress(kPhoneNumberConfig.countryCodeDefault);
   }
 
   @override
