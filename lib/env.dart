@@ -1601,11 +1601,6 @@ Map<String, dynamic> environment = {
           'defaultValue': '',
         },
         {
-          'type': 'state',
-          'visible': true,
-          'position': 9,
-        },
-        {
           'type': 'block2',
           'visible': true,
           'position': 10,

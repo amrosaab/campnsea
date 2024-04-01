@@ -167,9 +167,7 @@ extension on _ShippingAddressState {
       value: value,
       onChanged: (dynamic val) async {
         address!.state = val;
-        final country = Country(id: address!.country);
-        final state = CountryState(id: val);
-        cities = await Services().widget.loadCities(country, state);
+        cities = states?.map((e) => e.toCity()).toList();
         refresh();
       },
       isExpanded: true,
