@@ -8,7 +8,7 @@ import '../../common/constants.dart';
 import '../../models/index.dart'
     show Product, ProductAttribute, ProductModel, ProductVariation;
 import '../../services/index.dart';
-import '../../widgets/product/product_variant.dart';
+import '../../widgets/product/product_variant/product_variant_widget.dart';
 import '../product_variant_mixin.dart';
 
 const _defaultTitle = 'Title';

@@ -12,7 +12,7 @@ dependencies:
 
   fstore:
     path: ../../
-  inspireui: 1.6.0
+  inspireui: 1.6.2
 
   # FIREBASE PACKAGES
   firebase_core: 2.14.0

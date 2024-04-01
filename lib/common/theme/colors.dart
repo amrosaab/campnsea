@@ -251,7 +251,11 @@ const kNameToHex = {
   'noir': '#000000',
   'rose': '#773C32',
   'rouge': '#ec3636',
-  'vert': '#36ec58'
+  'vert': '#36ec58',
+  'brushed_steel': '#cac5cb',
+  'obisidian_black': '#000000',
+  'mountain_blue': '#0000ff',
+  'red_rock': '#b74b36',
 };
 
 const kOrderStatusColor = {

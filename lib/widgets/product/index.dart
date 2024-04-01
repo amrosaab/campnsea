@@ -2,7 +2,7 @@ export 'product_bottom_sheet.dart';
 export 'product_card_view.dart';
 export 'product_glass_view.dart';
 export 'product_list.dart';
-export 'product_variant.dart';
+export 'product_variant/product_variant_widget.dart';
 
 ///  entities widgets use for Cart View
 export 'widgets/cart_button.dart';

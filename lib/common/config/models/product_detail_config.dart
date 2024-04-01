@@ -1,6 +1,24 @@
 import '../../../modules/dynamic_layout/helper/helper.dart';
 import '../../tools.dart';
 
+enum ProductDetailAttributeLayout {
+  inline,
+  dropdown,
+  normal;
+
+  factory ProductDetailAttributeLayout.fromString(String? value) {
+    switch (value) {
+      case 'inline':
+        return ProductDetailAttributeLayout.inline;
+      case 'dropdown':
+        return ProductDetailAttributeLayout.dropdown;
+
+      default:
+        return ProductDetailAttributeLayout.normal;
+    }
+  }
+}
+
 class ProductDetailConfig {
   late final double height;
   late final double marginTop;

@@ -1452,10 +1452,10 @@ packages:
     dependency: "direct main"
     description:
       name: inspireui
-      sha256: "41735d4ed9064dee9aa56b0b33fea438462d1150e1214ebdd3c57acaaa690d64"
+      sha256: "6d083058893679e1ea1ed04914b5c0a6277e9487e2ed7e2b76d3fc006659c91a"
       url: "https://pub.dev"
     source: hosted
-    version: "1.6.0"
+    version: "1.6.2"
   intl:
     dependency: "direct main"
     description:
