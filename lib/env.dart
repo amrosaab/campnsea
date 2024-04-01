@@ -282,9 +282,8 @@ Map<String, dynamic> environment = {
 
     "EnableVersionCheck": true,
     "inAppUpdateForAndroid": {
-      "enable": false,
-      // "flexible, immediate"
-      "typeUpdate": "immediate",
+      "enable": true,
+      "typeUpdate": "immediate", // "flexible, immediate"
     },
     "categoryConfig": {
       // Enable this option when the store has more than 100 category items
