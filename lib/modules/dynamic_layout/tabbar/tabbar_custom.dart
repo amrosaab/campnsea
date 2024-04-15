@@ -204,9 +204,10 @@ class TabBarCustom extends StatelessWidget {
                     decoration: BoxDecoration(
                       border: tabConfig.enableDivider
                           ? Border(
+
                               top: !tabConfig.enableOnTop
                                   ? BorderSide(
-                                      color: Theme.of(context).dividerColor,
+                                color: Theme.of(context).brightness == Brightness.dark? Color(0xff292d39):Color(0xfff1f2f4),
                                       width: 0.5,
                                     )
                                   : BorderSide.none,

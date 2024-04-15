@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:inspireui/inspireui.dart';
 import 'package:provider/provider.dart';
 
@@ -75,7 +76,7 @@ class _MyCartStyle01LayoutState extends State<MyCartStyle01Layout>
                                   ? CloseButton(
                                       onPressed: () => onPressedClose(
                                           layoutType, widget.isBuyNow),
-                                    )
+                                    )//
                                   : canPop
                                       ? const BackButton()
                                       : null,
@@ -94,6 +95,8 @@ class _MyCartStyle01LayoutState extends State<MyCartStyle01Layout>
                                     child: Image.asset(
                                       'assets/images/trash.png',
                                       width: 20.0,
+                                      color: Theme.of(context).primaryColor,
+
                                     ),
                                   ),
                                 ),
@@ -325,7 +328,8 @@ class RenderTotalPrice extends StatelessWidget {
                                     )
                                   : Text(
                                       S.of(context).checkout,
-                                      style: style,
+                                      style: style.copyWith(                      fontFamily: GoogleFonts.cairo().fontFamily,
+                                      ),
                                     ))
                               : Text(
                                   S.of(context).startShopping.toUpperCase(),

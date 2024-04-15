@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:inspireui/inspireui.dart';
 import 'package:provider/provider.dart';
 
@@ -111,7 +112,11 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
                       totalCartQuantity > 0
                           ? (isLoading
                               ? Text(S.of(context).loading.toUpperCase())
-                              : Text(S.of(context).checkout.toUpperCase()))
+                              : Text(S.of(context).checkout.toUpperCase(),style: TextStyle(
+                        fontFamily: GoogleFonts.cairo().fontFamily,
+
+
+                      ),))
                           : Text(S.of(context).startShopping.toUpperCase()),
                       const SizedBox(width: 3),
                       const Icon(CupertinoIcons.right_chevron, size: 12),

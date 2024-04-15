@@ -53,6 +53,7 @@ class MenuBarState extends State<SideBarMenu> {
     printLog('[AppState] Load Menu');
 
     return SafeArea(
+
       top: drawer.safeArea,
       right: false,
       bottom: false,

@@ -53,6 +53,7 @@ class LoginSMSConstants {
 }
 
 PhoneNumberConfig get kPhoneNumberConfig => Configurations.phoneNumberConfig;
+String phoneNumecode= Configurations.phoneNumberConfig.countryCodeDefault;
 
 bool get kDefaultDarkTheme => Configurations.defaultDarkTheme;
 

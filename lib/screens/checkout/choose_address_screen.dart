@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../common/config.dart';
@@ -78,13 +79,21 @@ class _StateChooseAddress extends BaseScreen<ChooseAddressScreen> {
     }
   }
 
-  void removeData(int index) {
+  Future<void> removeData(int index)  async {
     var data = AddressBox().addresses;
+
     if (data.isNotEmpty) {
-      data.removeAt(index);
-      AddressBox().addresses = data;
+
+      print("xcxcxccxcx${data}");
+
+      await AddressBox().removeAdresses(data[index]);
+      getDataFromLocal();
+
+      // AddressBox().addresses = data;
+
     }
-    getDataFromLocal();
+
+
   }
 
   Widget convertToCard(BuildContext context, Address address) {
@@ -293,7 +302,10 @@ class _StateChooseAddress extends BaseScreen<ChooseAddressScreen> {
         ),
         title: Text(
           S.of(context).selectAddress,
-          style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+
+          style: TextStyle(color: Theme.of(context).colorScheme.secondary,
+              fontFamily: GoogleFonts.cairo().fontFamily
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -326,8 +338,8 @@ class _StateChooseAddress extends BaseScreen<ChooseAddressScreen> {
                       borderRadius: BorderRadius.circular(3),
                       child: GestureDetector(
                         onTap: () {
-                          Provider.of<CartModel>(context, listen: false)
-                              .setAddress(listAddress[index]);
+                          // Provider.of<CartModel>(context, listen: false)
+                          //     .setAddress(listAddress[index]);
                           Navigator.of(context).pop();
                           widget.callback(listAddress[index]);
                         },

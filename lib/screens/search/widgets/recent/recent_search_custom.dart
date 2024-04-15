@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../common/constants.dart';
@@ -71,6 +72,8 @@ class RecentSearchesCustom extends StatelessWidget {
                   child: Text(
                     S.of(context).clear,
                     style: TextStyle(
+                      fontFamily: GoogleFonts.cairo().fontFamily,
+
                       color: Theme.of(context).primaryColor,
                       fontSize: 13,
                     ),

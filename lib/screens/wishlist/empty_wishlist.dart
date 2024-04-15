@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../common/constants.dart';
 import '../../common/tools.dart';
@@ -53,7 +54,11 @@ class EmptyWishlist extends StatelessWidget {
                     ),
                     onPressed: onShowHome,
                     child: Text(
+
                       S.of(context).startShopping.toUpperCase(),
+                        style:               TextStyle(
+                          fontFamily: GoogleFonts.cairo().fontFamily,
+                        )
                     ),
                   ),
                 ),
@@ -68,11 +73,16 @@ class EmptyWishlist extends StatelessWidget {
                   height: 44,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: kGrey400,
-                      backgroundColor: kGrey200,
+                      // foregroundColor: kGrey400,
+                      backgroundColor: Theme.of(context).brightness == Brightness.dark?kGrey400.withOpacity(.5):Colors.white,
                     ),
                     onPressed: onSearchForItem,
-                    child: Text(S.of(context).searchForItems.toUpperCase()),
+                    child: Text(S.of(context).searchForItems.toUpperCase(),style: Theme.of(context).textTheme.bodySmall?.copyWith(color:
+                    Theme.of(context).brightness == Brightness.dark?Colors.white:Colors.teal[900],)
+
+
+
+                    ),
                   ),
                 ),
               )
@@ -161,11 +171,17 @@ class WishlistItem extends StatelessWidget {
                                             ? Text(S
                                                 .of(context)
                                                 .download
-                                                .toUpperCase())
+                                                .toUpperCase(),style: TextStyle(
+                                          fontFamily: GoogleFonts.cairo().fontFamily,
+
+                                        ),)
                                             : Text(S
                                                 .of(context)
                                                 .addToCart
-                                                .toUpperCase()),
+                                                .toUpperCase(),style: TextStyle(
+                                          fontFamily: GoogleFonts.cairo().fontFamily,
+
+                                        ),),
                                       ),
                                     ),
                                 ],

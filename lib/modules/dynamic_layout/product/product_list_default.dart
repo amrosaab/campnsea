@@ -82,10 +82,14 @@ class ProductListDefault extends StatelessWidget {
     }
 
     final body = Container(
-      color: Theme.of(context)
+      color:  Theme.of(context).brightness == Brightness.dark?Theme.of(context)
           .colorScheme
           .background
-          .withOpacity(enableBackground ? 0.0 : 1.0),
+          .withOpacity(enableBackground ? 0.0 : 1.0) : Colors.transparent,
+      // color: Theme.of(context)
+      //     .colorScheme
+      //     .background
+      //     .withOpacity(enableBackground ? 0.0 : 1.0),
       padding: EdgeInsets.only(left: padding, right: padding),
       constraints: BoxConstraints(
         minHeight: config.productListItemHeight,

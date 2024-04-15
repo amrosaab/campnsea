@@ -158,9 +158,11 @@ class _ProductCardState extends State<ProductCard> with ActionButtonMixin {
           onTapProduct(context, product: widget.item, config: widget.config),
       behavior: HitTestBehavior.opaque,
       child: Card(
+
         // color: Colors.white,
         shadowColor: Colors.transparent,
         child: AnimatedContainer(
+          padding: EdgeInsets.only(bottom: 10),
           duration: const Duration(milliseconds: 300),
           constraints: BoxConstraints(maxWidth: widget.maxWidth ?? width),
           width: widget.width!,

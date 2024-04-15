@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../common/config.dart';
 import '../../common/constants.dart';
@@ -42,8 +43,9 @@ class _BiometricsScreenState extends BaseScreen<BiometricsScreen>
           backgroundColor: Theme.of(context).colorScheme.background,
           appBar: AppBar(
             title: Text(
+//
               S.of(context).lockScreenAndSecurity,
-              style: const TextStyle(color: Colors.white),
+              style:  TextStyle(color: Colors.white,fontFamily: GoogleFonts.cairo().fontFamily),
             ),
             backgroundColor: Theme.of(context).primaryColor,
             leading: Center(

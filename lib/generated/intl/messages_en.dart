@@ -177,6 +177,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "areYouSure": MessageLookupByLibrary.simpleMessage("Are you sure?"),
         "areYouSureDeleteAccount": MessageLookupByLibrary.simpleMessage(
             "Are you sure to delete your account?"),
+        "area": MessageLookupByLibrary.simpleMessage("Area"),
         "assigned": MessageLookupByLibrary.simpleMessage("Assigned"),
         "atLeastThreeCharacters":
             MessageLookupByLibrary.simpleMessage("At least 3 characters..."),
@@ -211,8 +212,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "bleHasNotBeenEnabled": MessageLookupByLibrary.simpleMessage(
             "Bluetooth has not been enabled"),
         "bleState": m3,
+        "block2": MessageLookupByLibrary.simpleMessage("Floor"),
         "blog": MessageLookupByLibrary.simpleMessage("Blog"),
-        "block2": MessageLookupByLibrary.simpleMessage("Block"),
         "booked": MessageLookupByLibrary.simpleMessage("Already booked"),
         "booking": MessageLookupByLibrary.simpleMessage("Booking"),
         "bookingCancelled":
@@ -311,10 +312,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "chooseType": MessageLookupByLibrary.simpleMessage("Choose type"),
         "chooseYourPaymentMethod":
             MessageLookupByLibrary.simpleMessage("Choose your payment method"),
-    "city": MessageLookupByLibrary.simpleMessage("City"),
-    "area": MessageLookupByLibrary.simpleMessage("Area"),
-    "cityIsRequired":
-        MessageLookupByLibrary.simpleMessage("The area field is required"),
+        "city": MessageLookupByLibrary.simpleMessage("City"),
+        "cityIsRequired":
+            MessageLookupByLibrary.simpleMessage("The city field is required"),
         "clear": MessageLookupByLibrary.simpleMessage("Clear"),
         "clearCart": MessageLookupByLibrary.simpleMessage("Clear Cart"),
         "clearConversation":
@@ -340,15 +340,14 @@ class MessageLookup extends MessageLookupByLibrary {
             "Are you sure you want to delete this? This action cannot be undone."),
         "confirmDeleteItem": MessageLookupByLibrary.simpleMessage(
             "Are you sure you wish to delete this item?"),
+        "confirmRemoveProductInCart": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to remove this product?"),
         "connect": MessageLookupByLibrary.simpleMessage("Connect"),
         "contact": MessageLookupByLibrary.simpleMessage("Contact"),
         "content": MessageLookupByLibrary.simpleMessage("Content"),
-        "continueToPayment":
-            MessageLookupByLibrary.simpleMessage("Continue"),
-        "continueToReview":
-            MessageLookupByLibrary.simpleMessage("Continue"),
-        "continueToShipping":
-            MessageLookupByLibrary.simpleMessage("Continue"),
+        "continueToPayment": MessageLookupByLibrary.simpleMessage("Continue"),
+        "continueToReview": MessageLookupByLibrary.simpleMessage("Continue"),
+        "continueToShipping": MessageLookupByLibrary.simpleMessage("Continue"),
         "continues": MessageLookupByLibrary.simpleMessage("Continue"),
         "conversations": MessageLookupByLibrary.simpleMessage("Conversations"),
         "convertPoint": m5,
@@ -557,11 +556,15 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Fixed Cart Discount"),
         "fixedProductDiscount":
             MessageLookupByLibrary.simpleMessage("Fixed Product Discount"),
+        "flat": MessageLookupByLibrary.simpleMessage("Flat"),
         "forThisProduct":
             MessageLookupByLibrary.simpleMessage("for this product"),
         "freeOfCharge": MessageLookupByLibrary.simpleMessage("Free of charge"),
         "french": MessageLookupByLibrary.simpleMessage("French"),
         "from": MessageLookupByLibrary.simpleMessage("From"),
+        "fullAddress": MessageLookupByLibrary.simpleMessage("Full Address"),
+        "fullAddressIsRequired":
+            MessageLookupByLibrary.simpleMessage("Full Address is required"),
         "fullName": MessageLookupByLibrary.simpleMessage("Full name"),
         "gallery": MessageLookupByLibrary.simpleMessage("Gallery"),
         "generalSetting":
@@ -1075,6 +1078,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "scannerOrderAvailable": MessageLookupByLibrary.simpleMessage(
             "This order is not available for your account"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),
+        "searchByCountryNameOrDialCode": MessageLookupByLibrary.simpleMessage(
+            "Search by country name or dial code"),
         "searchByName":
             MessageLookupByLibrary.simpleMessage("Search with Name..."),
         "searchForItems":
@@ -1087,6 +1092,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "searchingAddress":
             MessageLookupByLibrary.simpleMessage("Search Address"),
         "secondsAgo": m28,
+        "sector": MessageLookupByLibrary.simpleMessage("Block"),
         "seeAll": MessageLookupByLibrary.simpleMessage("See All"),
         "seeNewAppConfig": MessageLookupByLibrary.simpleMessage(
             "Continue to see new content on your app."),
@@ -1172,10 +1178,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Start Exploring"),
         "startShopping": MessageLookupByLibrary.simpleMessage("Start Shopping"),
         "state": MessageLookupByLibrary.simpleMessage("State"),
-        "stateIsRequired":
-            MessageLookupByLibrary.simpleMessage("The province field is required"),
-        "stateProvince":
-            MessageLookupByLibrary.simpleMessage("Province"),
+        "stateIsRequired": MessageLookupByLibrary.simpleMessage(
+            "The province field is required"),
+        "stateProvince": MessageLookupByLibrary.simpleMessage("Governorate"),
         "status": MessageLookupByLibrary.simpleMessage("Status"),
         "stock": MessageLookupByLibrary.simpleMessage("Stock"),
         "stockQuantity": MessageLookupByLibrary.simpleMessage("Stock Quantity"),
@@ -1202,20 +1207,20 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Store Static Banner"),
         "storeVacation": MessageLookupByLibrary.simpleMessage("Store vacation"),
         "stores": MessageLookupByLibrary.simpleMessage("Stores"),
-        "street": MessageLookupByLibrary.simpleMessage("Floor"),
-    "fullAddress": MessageLookupByLibrary.simpleMessage("Full Address"),
-    "FullAddressIsRequired": MessageLookupByLibrary.simpleMessage("The full address field is required"),
-    "street2": MessageLookupByLibrary.simpleMessage("Street 2"),
-    "streetIsRequired":
-    MessageLookupByLibrary.simpleMessage("The floor field is required"),
-    "streetName": MessageLookupByLibrary.simpleMessage("Floor"),
-    "streetNameApartment": MessageLookupByLibrary.simpleMessage("Street"),
+        "street": MessageLookupByLibrary.simpleMessage("Street"),
+        "street2": MessageLookupByLibrary.simpleMessage("Street 2"),
+        "streetIsRequired":
+            MessageLookupByLibrary.simpleMessage("The floor field is required"),
+        "streetName": MessageLookupByLibrary.simpleMessage("Floor"),
+        "streetNameApartment": MessageLookupByLibrary.simpleMessage("Flat"),
         "streetNameBlock": MessageLookupByLibrary.simpleMessage("Building"),
         "submit": MessageLookupByLibrary.simpleMessage("Submit"),
         "submitYourPost":
             MessageLookupByLibrary.simpleMessage("Submit Your Post"),
         "subtotal": MessageLookupByLibrary.simpleMessage("Subtotal"),
         "support": MessageLookupByLibrary.simpleMessage("Support"),
+        "sureThatProductExists": MessageLookupByLibrary.simpleMessage(
+            "Check that the products in the cart are still available"),
         "swahili": MessageLookupByLibrary.simpleMessage("Swahili"),
         "swedish": MessageLookupByLibrary.simpleMessage("Swedish"),
         "tagNotExist":
@@ -1408,11 +1413,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Your product is under review"),
         "yourUsernameEmail":
             MessageLookupByLibrary.simpleMessage("Your username or email"),
-    "flat": MessageLookupByLibrary.simpleMessage("Flat"),
-    "zipCode": MessageLookupByLibrary.simpleMessage("Zip Code"),
-    "zipCodeIsRequired": MessageLookupByLibrary.simpleMessage(
-            "The zip code field is required"),
-        "sureThatProductExists": MessageLookupByLibrary.simpleMessage(
-            "Check that the products in the cart are still available"),
+        "zipCode": MessageLookupByLibrary.simpleMessage("Zip code"),
+        "zipCodeIsRequired": MessageLookupByLibrary.simpleMessage(
+            "The zip code field is required")
       };
 }

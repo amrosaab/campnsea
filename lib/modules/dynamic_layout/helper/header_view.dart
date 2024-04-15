@@ -28,11 +28,12 @@ class HeaderView extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     var isDesktop = Layout.isDisplayDesktop(context);
-
+//
     return SizedBox(
       width: screenSize.width,
       child: Container(
-        color: Theme.of(context).colorScheme.background,
+        color:Theme.of(context).brightness == Brightness.dark? Theme.of(context).colorScheme.background:Colors.transparent,
+        // color: Theme.of(context).colorScheme.background,
         margin: EdgeInsets.only(top: verticalMargin!),
         padding: EdgeInsets.only(
           left: horizontalMargin ?? 16.0,

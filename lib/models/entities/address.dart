@@ -10,6 +10,9 @@ class Address {
   String? apartment;
   String? block;
   String? block2;
+  String? province;
+  String? province2;
+  String? sector;
   String? city;
   String? state;
   String? country;
@@ -26,6 +29,9 @@ class Address {
         this.lastName,
         this.email,
         this.street,
+        this.province,
+        this.province2,
+        this.sector,
         this.apartment,
         this.block,
         this.block2,
@@ -49,6 +55,9 @@ class Address {
     state = parsedJson['state'] ?? '';
     country = parsedJson['country'] ?? '';
     email = parsedJson['email'] ?? '';
+    province = parsedJson['province'] ?? '';
+    province2 = parsedJson['province2'] ?? '';
+    sector = parsedJson['sector'] ?? '';
     // final alphanumeric = RegExp(r'^[a-zA-Z0-9]+$');
     // if (alphanumeric.hasMatch(firstName!)) {
     //   phoneNumber = firstName;
@@ -66,6 +75,9 @@ class Address {
     block = parsedJson['address_2'];
     city = parsedJson['city'];
     state = parsedJson['zone_id'];
+    province = parsedJson['province'] ?? '';
+    province2 = parsedJson['province2'] ?? '';
+    sector = parsedJson['sector'] ?? '';
     country = parsedJson['country_id'];
     fullAddress = parsedJson['full_address'];
     zipCode = parsedJson['postcode'];
@@ -87,6 +99,10 @@ class Address {
     phoneNumber = parsedJson['telephone'];
     fullAddress = parsedJson['full_address'];
     zipCode = parsedJson['postcode'];
+    province = parsedJson['province'] ?? '';
+    province2 = parsedJson['province2'] ?? '';
+
+    sector = parsedJson['sector'] ?? '';
   }
 
   Address.fromPrestaJson(Map<String, dynamic> parsedJson) {
@@ -99,6 +115,10 @@ class Address {
     phoneNumber = parsedJson['phone'];
     fullAddress = parsedJson['full_address'];
     zipCode = parsedJson['postcode'];
+    province = parsedJson['province'] ?? '';
+    province2 = parsedJson['province2'] ?? '';
+
+    sector = parsedJson['sector'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -116,6 +136,9 @@ class Address {
       'full_address': fullAddress,
       'postcode': zipCode,
       'mapUrl': mapUrl,
+    'province':province,
+    'province2':province2,
+    'sector' : sector
     };
     if (email != null && email!.isNotEmpty) {
       address['email'] = email;
@@ -153,6 +176,9 @@ class Address {
       fullAddress = json['full_address'];
       zipCode = json['postcode'];
       mapUrl = json['mapUrl'];
+      province = json['province'] ?? '';
+      province2 = json['province2'] ?? '';
+      sector = json['sector'] ?? '';
     } catch (e) {
       printLog(e.toString());
     }
@@ -236,6 +262,9 @@ class Address {
       'full_address': fullAddress,
       'postcode': zipCode,
       'mapUrl': mapUrl,
+    'province' :province,
+    'province2' :province2,
+    'sector': sector
     };
   }
 
@@ -263,7 +292,7 @@ class Address {
       'address': {
         'province': state,
         'country': country,
-        'address1': 'Area: $city, Block: $block2, Street: $apartment, Building: $block, ${(street ?? '') == '' ? '' : 'Floor: $street, '} ${(street ?? '') == '' ? '' : 'Flat: $zipCode'}',
+        'address1':'Area: $city, area: $province,Block:${sector??''}, Street: $street, Building: $block, ${(street ?? '') == '' ? '' : 'Floor: $block2, '} ${(block2 ?? '') == '' ? '' : 'Flat: $apartment'}',
         'address2': '${block!}, ${block2 ?? ''}',
         'company': apartment,
         'city': city,

@@ -38,7 +38,7 @@ dependencies:
   async: 2.11.0
   html: 0.15.4
   vector_math: 2.1.4
-  path: 1.8.3
+  path: ^1.9.0
   flutter_svg: 2.0.7
   notification_permissions: 0.6.1
   flutter_local_notifications: 14.1.2
@@ -63,11 +63,11 @@ dependencies:
   # HTML render
   flutter_widget_from_html_core: 0.10.3
   fwfh_svg: 0.8.0+2
-  fwfh_cached_network_image: 0.14.2
+  fwfh_cached_network_image: 0.7.0+5
   fwfh_url_launcher: 0.9.0+2
-#  fwfh_chewie: 0.7.1+2 # accentColor issue
+  #  fwfh_chewie: 0.7.1+2 # accentColor issue
   fwfh_webview: 0.7.0+2
-  fwfh_text_style: 2.22.8+3
+  fwfh_text_style: 2.23.8
 
   # VIDEO
   video_player: 2.7.0
@@ -99,7 +99,7 @@ dependencies:
   flutter_native_image: 0.0.6+1
   flutter_cache_manager: 3.3.1
   wechat_assets_picker: ^8.6.3
-  photo_manager: ^2.6.0
+  photo_manager: ^3.0.0
 
   # TOOLS
   google_fonts: 5.1.0
@@ -163,21 +163,19 @@ dependencies:
     git:
       url: https://github.com/inspireui/flutter_paystack
       ref: a2f084e96998135ba2f05165887d0750f79852c8
-  flutterwave_standard:
-    git:
-      url: https://github.com/inspireui/Flutterwave
-      ref: 59ad719deaf7af85c7ca106757b9b403b11bcbd4
+  flutterwave_standard: ^1.0.8
+
 
   #### For Shopify GraphQL
   graphql: 5.2.0-beta.5
 
   ### Flutter 3 fix warning
   intl_phone_number_input: # custom feature for phone number
-    git: 
+    git:
       url: https://github.com/inspireui/intl_phone_number_input
       ref: d0d359cfabaf3dbefba762cb4d9db3f66ea83f4a
   flutter_swiper_null_safety:
-    git: 
+    git:
       url: https://github.com/inspireui/flutter_swiper_null_safety
       ref: 18e8d2d642ff9e0013fc4477c6d64c52732b463a
   flare_flutter:
@@ -186,7 +184,7 @@ dependencies:
       ref: fd4bcba22aae4c028286e453deeb78f3311e689a
       path: flare_flutter
   pull_to_refresh:
-    git: 
+    git:
       url: https://github.com/inspireui/flutter_pulltorefresh
       ref: 6d7fbdd5b3cde242a474d66da312aac4aa892b9b
   multiple_localization:

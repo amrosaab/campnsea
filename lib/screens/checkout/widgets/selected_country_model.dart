@@ -6,7 +6,8 @@ import '../../../common/config.dart';
 import '../../../common/constants/country_phone_codes.dart';
 
 class SelectedCountryModel extends ChangeNotifier {
-  String selectedIsoCode = kPhoneNumberConfig.countryCodeDefault;
+  // String selectedIsoCode = kPhoneNumberConfig.countryCodeDefault;
+  String selectedIsoCode = phoneNumecode;
 
   String get dialCode {
     return countryPhoneCodes.firstWhereOrNull(

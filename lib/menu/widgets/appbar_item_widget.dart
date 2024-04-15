@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:inspireui/icons/icon_picker.dart' deferred as defer_icon;
 import 'package:inspireui/inspireui.dart';
 import 'package:provider/provider.dart';
@@ -212,9 +213,10 @@ class _AppBarItemWidgetState extends State<AppBarItemWidget> {
                     const SizedBox(width: 4.0),
                     Text(
                       item.title ?? S.of(context).selectAddress,
-                      style: const TextStyle(
+                      style:  TextStyle(
                         fontSize: 10.0,
                         fontWeight: FontWeight.w300,
+                        fontFamily: GoogleFonts.cairo().fontFamily
                       ),
                     ),
                     const Icon(

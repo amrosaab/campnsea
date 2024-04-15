@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:quiver/strings.dart';
@@ -424,11 +425,16 @@ class _ShippingMethodsState extends State<ShippingMethods> {
                   return;
                 }
               },
+
               icon: const Icon(
                 Icons.checklist,
                 size: 18,
               ),
-              label: Text((kPaymentConfig.enableReview
+              label: Text(
+                  style:               TextStyle(
+                    fontFamily: GoogleFonts.cairo().fontFamily,
+                  ),
+                  (kPaymentConfig.enableReview
                   ? S.of(context).continueToReview
                   : S.of(context).continueToPayment)
                   .toUpperCase()),

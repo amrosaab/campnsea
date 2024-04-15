@@ -425,10 +425,10 @@ class _DynamicSettingItemWidgetState extends State<DynamicSettingItemWidget>
                   style: const TextStyle(fontSize: 16),
                 ),
                 const SizedBox(height: 5),
-                Text(
-                  S.of(context).fingerprintsTouchID,
-                  style: Theme.of(context).textTheme.labelMedium,
-                ),
+                // Text(
+                //   S.of(context).fingerprintsTouchID,
+                //   style: Theme.of(context).textTheme.labelMedium,
+                // ),
               ],
             ),
             trailing: const Icon(

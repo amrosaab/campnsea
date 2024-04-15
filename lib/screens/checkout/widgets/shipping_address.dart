@@ -5,6 +5,7 @@ import 'package:country_pickers/country.dart' as picker_country;
 import 'package:country_pickers/country_pickers.dart' as picker;
 import 'package:flutter/cupertino.dart' show CupertinoIcons;
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:provider/provider.dart';
 
@@ -420,11 +421,21 @@ class _ShippingAddressState extends State<ShippingAddress> {
                       : Colors.grey[300],
                   elevation: 0.0,
                 ),
+
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ChooseAddressScreen(updateAddress),
+                      builder: (context) =>  ChooseAddressScreen((address){
+                        phoneNumecode=address!.country!;
+                        selectedCountryModel.selectedIsoCode=phoneNumecode;
+                        _fieldsConfigs.clear();
+                        _fieldsPositions.clear();
+                        _textControllers.clear();
+                        _focusNodes.clear();
+                        initializeFields();
+                        preFillData();
+                      }),
                     ),
                   );
                 },
@@ -438,10 +449,13 @@ class _ShippingAddressState extends State<ShippingAddress> {
                     const SizedBox(width: 10.0),
                     Text(
                       S.of(context).selectAddress.toUpperCase(),
-                      style: TextStyle(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? Theme.of(context).colorScheme.secondary
-                              : Theme.of(context).colorScheme.primary),
+                                        style:Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey
+                        ,
+                          fontFamily: GoogleFonts.cairo().fontFamily,
+                           ),
+                        // color: Theme.of(context).brightness == Brightness.dark
+                        //       ? Theme.of(context).colorScheme.secondary
+                        //       : Theme.of(context).colorScheme.primary),
                     ),
                   ],
                 ),
@@ -522,7 +536,8 @@ class _ShippingAddressState extends State<ShippingAddress> {
               setSelectorButtonAsPrefixIcon:
               kPhoneNumberConfig.selectorFlagAsPrefixIcon,
               leadingPadding: 0,
-              trailingSpace: false,
+
+              trailingSpace: true,
             ),
             selectorTextStyle: Theme.of(context).textTheme.titleMedium,
             ignoreBlank: !(_fieldsConfigs[index]?.required ?? true),
@@ -531,12 +546,13 @@ class _ShippingAddressState extends State<ShippingAddress> {
             countries: kPhoneNumberConfig.customCountryList,
             locale: langCode,
             searchBoxDecoration: InputDecoration(
-              labelText: S.of(context).searchByCountryNameOrDialCode,
+              labelText: S.of(context).searchByCountryNameOrDialCode ,
             ),
           );
         }
 
         return TextFormField(
+
           /// Auto focus first field if it's empty.
           autofocus:
           index == 0 && (currentFieldController?.text.isEmpty ?? false),

@@ -19,6 +19,8 @@ extension on _ShippingAddressState {
   }
 
   void loadAddressFields(Address? address) {
+
+    print("zxzxzxzxzxzxobject ${address}");
     _textControllers[AddressFieldType.country]?.text =
         address?.country?.trim() ?? '';
     _textControllers[AddressFieldType.state]?.text =
@@ -26,14 +28,18 @@ extension on _ShippingAddressState {
     _textControllers[AddressFieldType.city]?.text = address?.city?.trim() ?? '';
     _textControllers[AddressFieldType.block2]?.text =
         address?.block2?.trim() ?? '';
-    _textControllers[AddressFieldType.block2]?.text =
-        address?.block2?.trim() ?? '';
+    _textControllers[AddressFieldType.province]?.text =
+        address?.province?.trim() ?? '';
+    _textControllers[AddressFieldType.sector]?.text =
+        address?.sector?.trim() ?? '';
     _textControllers[AddressFieldType.apartment]?.text =
         address?.apartment?.trim() ?? '';
     _textControllers[AddressFieldType.block]?.text =
         address?.block?.trim() ?? '';
     _textControllers[AddressFieldType.street]?.text =
         address?.street?.trim() ?? '';
+    _textControllers[AddressFieldType.fullAddress]?.text =
+        address?.fullAddress?.trim() ?? '';
     _textControllers[AddressFieldType.zipCode]?.text =
         address?.zipCode?.trim() ?? '';
     refresh();
@@ -128,6 +134,7 @@ extension on _ShippingAddressState {
         _formKey.currentState!.save();
 
         await Future.delayed(const Duration(milliseconds: 1000));
+        phoneNumecode= selectedCountryModel.selectedIsoCode;
 
         Provider.of<CartModel>(context, listen: false).setAddress(
           address,
@@ -323,6 +330,8 @@ extension on _ShippingAddressState {
       );
 
   void onTextFieldSaved(String? value, AddressFieldType type) {
+
+    print("hokshvalue${value}");
     switch (type) {
       case AddressFieldType.firstName:
         address?.firstName = value;
@@ -348,6 +357,12 @@ extension on _ShippingAddressState {
       case AddressFieldType.apartment:
         address?.apartment = value;
         break;
+      case AddressFieldType.province:
+        address?.province = value;
+        break;
+      case AddressFieldType.sector:
+        address?.sector = value;
+        break;
       case AddressFieldType.block:
         address?.block = value;
         break;
@@ -364,7 +379,7 @@ extension on _ShippingAddressState {
         address?.zipCode = value?.trim();
         break;
 
-      /// Unsupported.
+    /// Unsupported.
       case AddressFieldType.searchAddress:
       case AddressFieldType.selectAddress:
       case AddressFieldType.unknown:
@@ -380,13 +395,18 @@ extension on _ShippingAddressState {
       case AddressFieldType.lastName:
         return S.of(context).lastName;
       case AddressFieldType.phoneNumber:
-        return S.of(context).phoneNumber;
+        return '  ${S.of(context).phoneNumber}';
       case AddressFieldType.email:
         return S.of(context).email;
       case AddressFieldType.country:
         return S.of(context).country;
       case AddressFieldType.state:
         return S.of(context).stateProvince;
+      case AddressFieldType.province:
+        return S.of(context).area;
+
+      case AddressFieldType.sector:
+        return S.of(context).sector;
       case AddressFieldType.city:
         return S.of(context).city;
       case AddressFieldType.apartment:
@@ -399,6 +419,7 @@ extension on _ShippingAddressState {
         return S.of(context).street;
       case AddressFieldType.fullAddress:
         return S.of(context).fullAddress;
+
       case AddressFieldType.zipCode:
         return S.of(context).zipCode;
       case AddressFieldType.searchAddress:
@@ -451,11 +472,15 @@ extension on _ShippingAddressState {
                 if (!checkToSave()) return;
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  Provider.of<CartModel>(context, listen: false).setAddress(
+                  Provider.of<CartModel>(context, listen: false).saveShippingAddress(
                     address,
-                    isoCode: selectedCountryModel.selectedIsoCode,
+                    selectedCountryModel.selectedIsoCode,
                   );
-                  saveDataToLocal();
+                  FlashHelper.message(
+                    context,
+                    message: S.of(context).yourAddressHasBeenSaved,
+                  );
+               //   saveDataToLocal();
                 } else {
                   FlashHelper.errorMessage(
                     context,
@@ -490,6 +515,7 @@ extension on _ShippingAddressState {
               ),
               onPressed: _onNext,
               label: Text(
+
                 (kPaymentConfig.enableShipping
                         ? S.of(context).continueToShipping
                         : kPaymentConfig.enableReview
@@ -499,7 +525,8 @@ extension on _ShippingAddressState {
                 style: Theme.of(context)
                     .textTheme
                     .bodySmall!
-                    .copyWith(color: Colors.white),
+                    .copyWith(color: Colors.white,                  fontFamily: GoogleFonts.cairo().fontFamily,
+                ),
               ),
             ),
           ),
