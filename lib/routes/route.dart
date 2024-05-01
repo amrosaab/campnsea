@@ -495,10 +495,15 @@ class Routes {
       case RouteList.dynamic:
         final data = settings.arguments;
         if (data is TabBarMenuConfig) {
+          final label = data.jsonData['label'].toString().toLowerCase();
+
           return _buildRoute(
             settings,
             (context) => DynamicScreen(
-                configs: data.jsonData['configs'], previewKey: data.key),
+              configs: data.jsonData['configs'],
+              previewKey: data.key,
+              enableSearch: label == 'الماركات' || label == 'brands',
+            ),
           );
         }
         return _errorRoute(data.toString());
