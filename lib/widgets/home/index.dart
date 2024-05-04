@@ -26,6 +26,7 @@ class HomeLayout extends StatefulWidget {
   final bool isShowAppbar;
   final bool showNewAppBar;
   final bool enableRefresh;
+  final bool enableSearch;
   final ScrollController? scrollController;
 
   const HomeLayout({
@@ -34,6 +35,7 @@ class HomeLayout extends StatefulWidget {
     this.isShowAppbar = true,
     this.showNewAppBar = false,
     this.enableRefresh = true,
+    this.enableSearch = false,
     this.scrollController,
     Key? key,
   }) : super(key: key);
@@ -50,6 +52,8 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
   bool isPreviewingAppBar = false;
 
   bool cleanCache = false;
+
+  late bool enableSearch = widget.enableSearch;
 
   @override
   void initState() {
@@ -90,6 +94,9 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
         verticalData['type'] = 'vertical';
         verticalWidgetData = verticalData;
       }
+
+      enableSearch = widget.enableSearch;
+
       setState(() {});
     }
     super.didUpdateWidget(oldWidget);
@@ -259,7 +266,11 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
                   index: previewIndex,
                   config: config,
                   builder: (value) {
-                    return DynamicLayout(config: value, cleanCache: cleanCache);
+                    return DynamicLayout(
+                      config: value,
+                      cleanCache: cleanCache,
+                      enableSearch: enableSearch,
+                    );
                   },
                 );
 

@@ -103,6 +103,40 @@ class CategoryConfig {
 
     return map;
   }
+
+  CategoryConfig copyWith({
+    String? type,
+    String? layout,
+    bool? wrap,
+    bool? horizontalItem,
+    bool? gradientDesign,
+    int? columns,
+    double? shadow,
+    double? marginLeft,
+    double? marginRight,
+    double? marginTop,
+    double? marginBottom,
+    double? separateWidth,
+    CommonItemConfig? commonItemConfig,
+    List<CategoryItemConfig>? items,
+  }) {
+    return CategoryConfig(
+      type: type ?? this.type,
+      layout: layout ?? this.layout,
+      wrap: wrap ?? this.wrap,
+      horizontalItem: horizontalItem ?? this.horizontalItem,
+      gradientDesign: gradientDesign ?? this.gradientDesign,
+      columns: columns ?? this.columns,
+      shadow: shadow ?? this.shadow,
+      marginLeft: marginLeft ?? this.marginLeft,
+      marginRight: marginRight ?? this.marginRight,
+      marginTop: marginTop ?? this.marginTop,
+      marginBottom: marginBottom ?? this.marginBottom,
+      separateWidth: separateWidth ?? this.separateWidth,
+      commonItemConfig: commonItemConfig ?? this.commonItemConfig,
+      items: items ?? this.items,
+    );
+  }
 }
 
 class CommonItemConfig {

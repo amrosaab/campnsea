@@ -3,8 +3,10 @@ import 'package:provider/provider.dart';
 
 import '../../common/constants.dart';
 import '../../common/tools.dart';
+import '../../models/dynamic_layout_category_model.dart';
 import '../../models/index.dart';
 import '../../routes/flux_navigate.dart';
+import '../../screens/index.dart';
 import '../../services/index.dart';
 import 'banner/banner_animate_items.dart';
 import 'banner/banner_group_items.dart';
@@ -37,8 +39,13 @@ import 'video/index.dart';
 class DynamicLayout extends StatelessWidget {
   final config;
   final bool cleanCache;
+  final bool enableSearch;
 
-  const DynamicLayout({this.config, this.cleanCache = false});
+  const DynamicLayout({
+    this.config,
+    this.cleanCache = false,
+    this.enableSearch = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -84,49 +91,97 @@ class DynamicLayout extends StatelessWidget {
       case Layout.featuredVendors:
         return Services().widget.renderFeatureVendor(config);
       case Layout.category:
-        if (config['type'] == 'image') {
-          return CategoryImages(
-            config: CategoryConfig.fromJson(config),
-          );
-        }
-        return Selector<CategoryModel, Map<String?, Category>>(
-          selector: (_, model) => model.categoryList,
-          builder: (context, categoryList, child) {
-            var configValue = CategoryConfig.fromJson(config);
-            var listCategoryName =
-                categoryList.map((key, value) => MapEntry(key, value.name));
-            void onShowProductList(CategoryItemConfig item) {
-              FluxNavigate.pushNamed(
-                RouteList.backdrop,
-                arguments: BackDropArguments(
-                  config: item.toJson(),
-                  data: item.data,
-                ),
-              );
-            }
+        return ChangeNotifierProvider(
+          create: (context) => DynamicLayoutCategoryModel(
+            CategoryConfig.fromJson(config),
+          ),
+          child: Builder(builder: (context) {
+            return Consumer<DynamicLayoutCategoryModel>(
+                builder: (context, model, child) {
+              return Column(
+                children: [
+                  if (enableSearch)
+                    Container(
+                      color: Theme.of(context).colorScheme.background,
+                      padding: const EdgeInsets.only(
+                        left: 16,
+                        right: 16,
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: IntrinsicHeight(
+                              child: SearchBox(
+                                onChanged: model.onSearch,
+                                showQRCode: false,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Center(
+                            child: Text(
+                              Localizations.localeOf(context).languageCode ==
+                                      'ar'
+                                  ? 'أ-ي'
+                                  : 'A-Z',
+                            ),
+                          ),
+                          Switch(
+                            value: model.isFilterAlphabetically,
+                            activeColor: Theme.of(context).colorScheme.primary,
+                            onChanged: model.onFilterAlphabetically,
+                          )
+                        ],
+                      ),
+                    ),
+                  if (config['type'] == 'image')
+                    CategoryImages(
+                      config: model.categoryConfig,
+                    )
+                  else
+                    Selector<CategoryModel, Map<String?, Category>>(
+                      selector: (_, model) => model.categoryList,
+                      builder: (context, categoryList, child) {
+                        var configValue = model.categoryConfig;
+                        var listCategoryName = categoryList
+                            .map((key, value) => MapEntry(key, value.name));
+                        void onShowProductList(CategoryItemConfig item) {
+                          FluxNavigate.pushNamed(
+                            RouteList.backdrop,
+                            arguments: BackDropArguments(
+                              config: item.toJson(),
+                              data: item.data,
+                            ),
+                          );
+                        }
 
-            if (config['type'] == 'menuWithProducts') {
-              return CategoryMenuWithProducts(
-                config: configValue,
-                listCategoryName: listCategoryName,
-                onShowProductList: onShowProductList,
-              );
-            }
+                        if (config['type'] == 'menuWithProducts') {
+                          return CategoryMenuWithProducts(
+                            config: configValue,
+                            listCategoryName: listCategoryName,
+                            onShowProductList: onShowProductList,
+                          );
+                        }
 
-            if (config['type'] == 'text') {
-              return CategoryTexts(
-                config: configValue,
-                listCategoryName: listCategoryName,
-                onShowProductList: onShowProductList,
-              );
-            }
+                        if (config['type'] == 'text') {
+                          return CategoryTexts(
+                            config: configValue,
+                            listCategoryName: listCategoryName,
+                            onShowProductList: onShowProductList,
+                          );
+                        }
 
-            return CategoryIcons(
-              config: configValue,
-              listCategoryName: listCategoryName,
-              onShowProductList: onShowProductList,
-            );
-          },
+                        return CategoryIcons(
+                          config: configValue,
+                          listCategoryName: listCategoryName,
+                          onShowProductList: onShowProductList,
+                        );
+                      },
+                    )
+                ],
+              );
+            });
+          }),
         );
       case Layout.bannerAnimated:
         if (kIsWeb) return const SizedBox();

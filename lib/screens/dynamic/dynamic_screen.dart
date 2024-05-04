@@ -14,10 +14,15 @@ import '../base_screen.dart';
 import '../common/app_bar_mixin.dart';
 
 class DynamicScreen extends StatefulWidget {
+  final bool enableSearch;
   final String? previewKey;
   final configs;
 
-  const DynamicScreen({this.configs, this.previewKey});
+  const DynamicScreen({
+    this.enableSearch = false,
+    this.previewKey,
+    this.configs,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -106,14 +111,16 @@ class DynamicScreenState extends BaseScreen<DynamicScreen>
               if (!emptyHorizontal ||
                   (configs['VerticalLayout']?.isNotEmpty ?? false))
                 HomeLayout(
-                    isPinAppBar: isStickyHeader,
-                    isShowAppbar: emptyHorizontal
-                        ? false
-                        : configs['HorizonLayout'][0]['layout'] == 'logo',
-                    showNewAppBar:
-                        appConfig.appBar?.shouldShowOn(RouteList.dynamic) ??
-                            false,
-                    configs: configs),
+                  isPinAppBar: isStickyHeader,
+                  isShowAppbar: emptyHorizontal
+                      ? false
+                      : configs['HorizonLayout'][0]['layout'] == 'logo',
+                  showNewAppBar:
+                      appConfig.appBar?.shouldShowOn(RouteList.dynamic) ??
+                          false,
+                  configs: configs,
+                  enableSearch: widget.enableSearch,
+                ),
               const WrapStatusBar(),
             ],
           ),
