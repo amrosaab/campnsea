@@ -367,6 +367,35 @@ class Tools {
     }
   }
 
+  static AlignmentGeometry getAlignmentDirectional(
+      String? alignment, {
+        AlignmentGeometry? defaultValue,
+      }) {
+    switch (alignment) {
+      case 'left':
+      case 'centerLeft':
+        return AlignmentDirectional.centerStart;
+      case 'right':
+      case 'centerRight':
+        return AlignmentDirectional.centerEnd;
+      case 'topLeft':
+        return AlignmentDirectional.topStart;
+      case 'topRight':
+        return AlignmentDirectional.topEnd;
+      case 'bottomLeft':
+        return AlignmentDirectional.bottomStart;
+      case 'bottomRight':
+        return AlignmentDirectional.bottomEnd;
+      case 'bottomCenter':
+        return AlignmentDirectional.bottomCenter;
+      case 'topCenter':
+        return AlignmentDirectional.topCenter;
+      case 'center':
+      default:
+        return defaultValue ?? AlignmentDirectional.center;
+    }
+  }
+
   static String getPhoneCodeByPhoneNumber(String phoneNumber) {
     final item = countryPhoneCodes
         .firstWhereOrNull((e) => phoneNumber.contains(e['dial_code']));

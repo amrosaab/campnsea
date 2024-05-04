@@ -45,7 +45,7 @@ class HeaderText extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: Align(
-                alignment: Tools.getAlignment(config.alignment),
+                alignment: Tools.getAlignmentDirectional(config.alignment),
                 child: HeaderType(config: config),
               ),
             ),
