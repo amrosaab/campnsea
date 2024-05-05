@@ -787,7 +787,7 @@ class ShopifyService extends BaseServices {
         'api_key': '9q7k2Q7C9R',
         'q': name,
         'maxResults': pageSize,
-        'startIndex': page == null ? 0 : int.parse(page),
+        'startIndex': page == null ? 0 : int.parse(page) * pageSize,
         'items': true,
         'pages': false,
         'facets': false,
