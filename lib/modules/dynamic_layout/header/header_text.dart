@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inspireui/inspireui.dart';
 import '../../../common/constants.dart';
 import '../../../common/tools.dart';
 
@@ -24,42 +25,44 @@ class HeaderText extends StatelessWidget {
     return SafeArea(
       bottom: false,
       top: config.isSafeArea,
-      child: Container(
-        height: height.toDouble(),
-        color: config.backgroundColor != null
-            ? HexColor(config.backgroundColor)
-            : null,
-        padding: EdgeInsets.only(
-          top: config.paddingTop.toDouble(),
-          left: config.paddingLeft.toDouble(),
-          right: config.paddingRight.toDouble(),
-          bottom: config.paddingBottom.toDouble(),
-        ),
-        margin: EdgeInsets.only(
-          top: config.marginTop.toDouble(),
-          left: config.marginLeft.toDouble(),
-          right: config.marginRight.toDouble(),
-          bottom: config.marginBottom.toDouble(),
-        ),
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: Align(
-                alignment: Tools.getAlignmentDirectional(config.alignment),
-                child: HeaderType(config: config),
+      child: AutoHideKeyboard(
+        child: Container(
+          height: height.toDouble(),
+          color: config.backgroundColor != null
+              ? HexColor(config.backgroundColor)
+              : null,
+          padding: EdgeInsets.only(
+            top: config.paddingTop.toDouble(),
+            left: config.paddingLeft.toDouble(),
+            right: config.paddingRight.toDouble(),
+            bottom: config.paddingBottom.toDouble(),
+          ),
+          margin: EdgeInsets.only(
+            top: config.marginTop.toDouble(),
+            left: config.marginLeft.toDouble(),
+            right: config.marginRight.toDouble(),
+            bottom: config.marginBottom.toDouble(),
+          ),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Align(
+                  alignment: Tools.getAlignmentDirectional(config.alignment),
+                  child: HeaderType(config: config),
+                ),
               ),
-            ),
-            if (config.showSearch == true)
-              IconButton(
-                icon: const Icon(Icons.search),
-                iconSize: 24.0,
-                onPressed: onSearch != null
-                    ? () => onSearch?.call()
-                    : () {
-                        FluxNavigate.pushNamed(RouteList.homeSearch);
-                      },
-              )
-          ],
+              if (config.showSearch == true)
+                IconButton(
+                  icon: const Icon(Icons.search),
+                  iconSize: 24.0,
+                  onPressed: onSearch != null
+                      ? () => onSearch?.call()
+                      : () {
+                          FluxNavigate.pushNamed(RouteList.homeSearch);
+                        },
+                )
+            ],
+          ),
         ),
       ),
     );
