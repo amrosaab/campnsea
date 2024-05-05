@@ -140,7 +140,21 @@ abstract class BaseServices {
   }) =>
       null;
 
+  // UNUSED
   Future<PagingResponse<Product>>? searchProducts({
+    name,
+    categoryId,
+    categoryName,
+    tag,
+    attribute,
+    attributeId,
+    required page,
+    listingLocation,
+    userId,
+  }) =>
+      null;
+
+  Future<PagingResponse<Product>>? searchProductsSearchanise({
     name,
     categoryId,
     categoryName,
