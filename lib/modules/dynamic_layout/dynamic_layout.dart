@@ -121,6 +121,7 @@ class DynamicLayout extends StatelessWidget {
                           const SizedBox(width: 16),
                           Center(
                             child: Text(
+                              //TODO: Should be fetched from localization.
                               Localizations.localeOf(context).languageCode ==
                                       'ar'
                                   ? 'أ-ي'
