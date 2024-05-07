@@ -14,11 +14,13 @@ import '../base_screen.dart';
 import '../common/app_bar_mixin.dart';
 
 class DynamicScreen extends StatefulWidget {
+  final bool resizeToAvoidBottomInset;
   final bool enableSearch;
   final String? previewKey;
   final configs;
 
   const DynamicScreen({
+    this.resizeToAvoidBottomInset = true,
     this.enableSearch = false,
     this.previewKey,
     this.configs,
@@ -100,6 +102,7 @@ class DynamicScreenState extends BaseScreen<DynamicScreen>
 
         return Scaffold(
           backgroundColor: Theme.of(context).colorScheme.background,
+          resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
           body: Stack(
             children: <Widget>[
               if (configs['Background'] != null)

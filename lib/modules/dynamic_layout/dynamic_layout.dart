@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inspireui/inspireui.dart' show AutoHideKeyboard;
 import 'package:provider/provider.dart';
 
 import '../../common/constants.dart';
@@ -120,6 +121,7 @@ class DynamicLayout extends StatelessWidget {
                           const SizedBox(width: 16),
                           Center(
                             child: Text(
+                              //TODO: Should be fetched from localization.
                               Localizations.localeOf(context).languageCode ==
                                       'ar'
                                   ? 'أ-ي'
@@ -134,50 +136,56 @@ class DynamicLayout extends StatelessWidget {
                         ],
                       ),
                     ),
-                  if (config['type'] == 'image')
-                    CategoryImages(
-                      config: model.categoryConfig,
-                    )
-                  else
-                    Selector<CategoryModel, Map<String?, Category>>(
-                      selector: (_, model) => model.categoryList,
-                      builder: (context, categoryList, child) {
-                        var configValue = model.categoryConfig;
-                        var listCategoryName = categoryList
-                            .map((key, value) => MapEntry(key, value.name));
-                        void onShowProductList(CategoryItemConfig item) {
-                          FluxNavigate.pushNamed(
-                            RouteList.backdrop,
-                            arguments: BackDropArguments(
-                              config: item.toJson(),
-                              data: item.data,
-                            ),
-                          );
-                        }
+                  AutoHideKeyboard(
+                    child: Column(
+                      children: [
+                        if (config['type'] == 'image')
+                          CategoryImages(
+                            config: model.categoryConfig,
+                          )
+                        else
+                          Selector<CategoryModel, Map<String?, Category>>(
+                            selector: (_, model) => model.categoryList,
+                            builder: (context, categoryList, child) {
+                              var configValue = model.categoryConfig;
+                              var listCategoryName = categoryList
+                                  .map((key, value) => MapEntry(key, value.name));
+                              void onShowProductList(CategoryItemConfig item) {
+                                FluxNavigate.pushNamed(
+                                  RouteList.backdrop,
+                                  arguments: BackDropArguments(
+                                    config: item.toJson(),
+                                    data: item.data,
+                                  ),
+                                );
+                              }
 
-                        if (config['type'] == 'menuWithProducts') {
-                          return CategoryMenuWithProducts(
-                            config: configValue,
-                            listCategoryName: listCategoryName,
-                            onShowProductList: onShowProductList,
-                          );
-                        }
+                              if (config['type'] == 'menuWithProducts') {
+                                return CategoryMenuWithProducts(
+                                  config: configValue,
+                                  listCategoryName: listCategoryName,
+                                  onShowProductList: onShowProductList,
+                                );
+                              }
 
-                        if (config['type'] == 'text') {
-                          return CategoryTexts(
-                            config: configValue,
-                            listCategoryName: listCategoryName,
-                            onShowProductList: onShowProductList,
-                          );
-                        }
+                              if (config['type'] == 'text') {
+                                return CategoryTexts(
+                                  config: configValue,
+                                  listCategoryName: listCategoryName,
+                                  onShowProductList: onShowProductList,
+                                );
+                              }
 
-                        return CategoryIcons(
-                          config: configValue,
-                          listCategoryName: listCategoryName,
-                          onShowProductList: onShowProductList,
-                        );
-                      },
-                    )
+                              return CategoryIcons(
+                                config: configValue,
+                                listCategoryName: listCategoryName,
+                                onShowProductList: onShowProductList,
+                              );
+                            },
+                          )
+                      ],
+                    ),
+                  ),
                 ],
               );
             });
