@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:collection/collection.dart';
+import 'package:dio/dio.dart';
 import 'package:graphql/client.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
@@ -482,7 +484,7 @@ class ShopifyService extends BaseServices {
         printLog(
             '::::request fetchProductsByCategory with cursor $currentCursor');
 
-        final result = await searchProducts(
+        final result = await searchProductsSearchanise(
           name: search,
           page: currentCursor,
           sortKey: orderBy,
@@ -748,6 +750,70 @@ class ShopifyService extends BaseServices {
       printLog(list);
 
       return PagingResponse(data: list, cursor: lastCursor);
+    } catch (e) {
+      printLog('::::searchProducts shopify error');
+      printLog(e.toString());
+      rethrow;
+    }
+  }
+
+  @override
+  Future<PagingResponse<Product>> searchProductsSearchanise({
+    name,
+    categoryId = '',
+    categoryName = '',
+    tag = '',
+    attribute = '',
+    attributeId = '',
+    page,
+    listingLocation,
+    userId,
+    String? sortKey,
+    bool reverse = false,
+  }) async {
+    try {
+      // search Products Searchanise API HERE
+      printLog('::::request searchProductsSearchanise');
+      const pageSize = 10;
+      Dio dio;
+      dio = Dio(
+        BaseOptions(
+          baseUrl: 'https://searchserverapi.com',
+          headers: {'Content-Type': 'application/json'},
+        ),
+      );
+
+      final result = await dio.get('/search', queryParameters: {
+        'api_key': '9q7k2Q7C9R',
+        'q': name,
+        'maxResults': pageSize,
+        'startIndex': page == null ? 0 : int.parse(page) * pageSize,
+        'items': true,
+        'pages': false,
+        'facets': false,
+        'categories': false,
+        'suggestions': false,
+        'vendors': false,
+        'tags': false,
+        'pageStartIndex': 0,
+        'pagesMaxResults': 0,
+        'categoryStartIndex': 0,
+        'categoriesMaxResults': 0,
+        'suggestionsMaxResults': 0,
+        'output': 'jsonp'
+      });
+
+      final data = result.data;
+      Map dataMap = Map<String, dynamic>.from(jsonDecode(data));
+      final items = dataMap['items'];
+
+      final list = await Future.wait<Product>(
+        items.map<Future<Product>>((item) => getProduct(item['product_id'])),
+      );
+
+      printLog(list);
+      var cursor = page == null ? 1 : int.parse(page) + 1;
+      return PagingResponse(data: list, cursor: '$cursor');
     } catch (e) {
       printLog('::::searchProducts shopify error');
       printLog(e.toString());
