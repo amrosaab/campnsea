@@ -7,6 +7,7 @@ import 'package:http_auth/http_auth.dart';
 
 import '../common/config.dart';
 import '../common/constants.dart';
+import '../common/typedefs.dart';
 import '../data/boxes.dart';
 import '../models/comment.dart';
 import '../models/entities/brand.dart';
@@ -105,6 +106,8 @@ abstract class BaseServices {
     String? token,
     String? checkoutId,
     Store? store,
+    String? langCode,
+    FormatAddress? formatAddress,
   }) =>
       null;
 

@@ -22,9 +22,6 @@ extension AddressCommerceSettingsExtension on AddressBox {
   List<Address> get addresses {
     final rawData = box.values;
     final listAddress = <Address>[];
-    // print("dfsdfsd");
-
-    // if (rawData is List) {
     for (var item in rawData) {
       Address? address;
 
@@ -38,44 +35,24 @@ extension AddressCommerceSettingsExtension on AddressBox {
         listAddress.add(address);
       }
     }
-    //  }
 
     return listAddress;
   }
 
   set addresses(List<Address>? value)  {
-    // if (value == null) {
-    //   box.clear();
-    //   return;
-    // }
-    //
-    //
-    // final rawData = value.map((e) => e.toJsonEncodable()).toList();
-    // print("dsfdsfds${value}");
-    // box.addAll(rawData);
-
-    this.addresses=addresses;
-
-
-
-
-  }
-
-  removeAdresses(Address value) async {
-
     if (value == null) {
       box.clear();
       return;
     }
 
 
-    // final rawData = value.map((e) => e.toJsonEncodable()).toList();
-    // print("dsfdsfds${value}");
-    // await box.clear();
-
-    await box.delete(value.country);
+    for(final oneAddress in value) {
+      final rawData = oneAddress.toJsonEncodable();
+      box.put(oneAddress.country, rawData);
+    }
   }
 
-
-
+  Future<void> removeAddressForCountry(Address value) async {
+    await box.delete(value.country);
+  }
 }

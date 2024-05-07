@@ -425,7 +425,7 @@ class DefaultConfig {
     },
     {
       'type': 'country',
-      'visible': true,
+      'visible': false,
       'editable': false,
       'required': true,
       'position': 7,
@@ -455,6 +455,26 @@ class DefaultConfig {
       'defaultValue': '',
     }
   ].map<AddressFieldConfig>(AddressFieldConfig.fromMap).toList();
+
+  static FormatAddress formatAddress = ({
+    String? province,
+    String? city,
+    String? street,
+    String? block,
+    String? block2,
+    String? apartment,
+    String? fullAddress,
+    String? zipCode,
+  }) {
+    return {
+      if (city != null) 'province': city,
+      if (city != null) 'city': city,
+      if (fullAddress != null) 'address1': fullAddress,
+      if (block != null) 'address2': block,
+    };
+  };
+
+
   static Map payments = {};
   static Map stripeConfig = {};
   static Map paypalConfig = {};

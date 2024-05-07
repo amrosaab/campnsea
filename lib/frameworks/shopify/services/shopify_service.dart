@@ -9,6 +9,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../common/config.dart' show kAdvanceConfig, kShopifyPaymentConfig;
 import '../../../common/constants.dart';
+import '../../../common/typedefs.dart';
 import '../../../data/boxes.dart';
 import '../../../generated/l10n.dart';
 import '../../../models/cart/cart_model_shopify.dart';
@@ -573,10 +574,14 @@ class ShopifyService extends BaseServices {
     String? token,
     String? checkoutId,
     store_model.Store? store,
+    String? langCode,
+    FormatAddress? formatAddress,
   }) async {
     try {
       var list = <ShippingMethod>[];
-      var newAddress = cartModel!.address!.toShopifyJson()['address'];
+      var newAddress = cartModel!.address!.toShopifyJson(
+        formatAddress: formatAddress,
+      )['address'];
 
       printLog('getShippingMethods with checkoutId $checkoutId');
 

@@ -7,6 +7,7 @@ import 'package:provider/single_child_widget.dart';
 import '../common/config.dart';
 import '../common/constants.dart';
 import '../common/tools.dart';
+import '../common/typedefs.dart';
 import '../generated/l10n.dart';
 import '../models/entities/filter_sorty_by.dart';
 import '../models/index.dart';
@@ -145,8 +146,9 @@ abstract class BaseFrameworks {
   void loadShippingMethods(
     BuildContext context,
     CartModel cartModel,
-    bool beforehand,
-  ) {}
+    bool beforehand, {
+    FormatAddress? formatAddress,
+  }) {}
 
   Widget renderButtons(
     BuildContext context,

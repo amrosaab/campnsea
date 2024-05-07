@@ -13,9 +13,11 @@ import '../../services/index.dart';
 import '../index.dart' show BaseScreen;
 
 class ChooseAddressScreen extends StatefulWidget {
-  final void Function(Address?) callback;
+  const ChooseAddressScreen({
+    required this.callback,
+  });
 
-  const ChooseAddressScreen(this.callback);
+  final void Function(Address?) callback;
 
   @override
   BaseScreen<ChooseAddressScreen> createState() => _StateChooseAddress();
@@ -79,21 +81,15 @@ class _StateChooseAddress extends BaseScreen<ChooseAddressScreen> {
     }
   }
 
-  Future<void> removeData(int index)  async {
+  Future<void> removeData(int index) async {
     var data = AddressBox().addresses;
 
     if (data.isNotEmpty) {
-
-      print("xcxcxccxcx${data}");
-
-      await AddressBox().removeAdresses(data[index]);
+      await AddressBox().removeAddressForCountry(data[index]);
       getDataFromLocal();
 
       // AddressBox().addresses = data;
-
     }
-
-
   }
 
   Widget convertToCard(BuildContext context, Address address) {
@@ -186,8 +182,8 @@ class _StateChooseAddress extends BaseScreen<ChooseAddressScreen> {
       return const SizedBox();
     }
     final userFullName =
-    '${user!.billing!.firstName ?? ''} ${user!.billing!.lastName ?? ''}'
-        .trim();
+        '${user!.billing!.firstName ?? ''} ${user!.billing!.lastName ?? ''}'
+            .trim();
     return GestureDetector(
       onTap: () {
         final add = Address(
@@ -240,8 +236,8 @@ class _StateChooseAddress extends BaseScreen<ChooseAddressScreen> {
   Widget _renderShippingAddress() {
     if (user == null || user!.shipping == null) return const SizedBox();
     final userFullName =
-    '${user!.billing!.firstName ?? ''} ${user!.billing!.lastName ?? ''}'
-        .trim();
+        '${user!.billing!.firstName ?? ''} ${user!.billing!.lastName ?? ''}'
+            .trim();
     return GestureDetector(
       onTap: () {
         final add = Address(
@@ -302,10 +298,9 @@ class _StateChooseAddress extends BaseScreen<ChooseAddressScreen> {
         ),
         title: Text(
           S.of(context).selectAddress,
-
-          style: TextStyle(color: Theme.of(context).colorScheme.secondary,
-              fontFamily: GoogleFonts.cairo().fontFamily
-          ),
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.secondary,
+              fontFamily: GoogleFonts.cairo().fontFamily),
         ),
       ),
       body: SingleChildScrollView(

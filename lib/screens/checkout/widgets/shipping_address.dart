@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 
 import '../../../common/config.dart';
 import '../../../common/config/models/address_field_config.dart';
+import '../../../common/config/models/country_address_fields_config.dart';
 import '../../../common/constants.dart';
 import '../../../common/tools/flash.dart';
 import '../../../data/boxes.dart';
@@ -37,7 +38,7 @@ class ShippingAddress extends StatefulWidget {
 
 class _ShippingAddressState extends State<ShippingAddress> {
   late final selectedCountryModel =
-  Provider.of<SelectedCountryModel>(context, listen: false);
+      Provider.of<SelectedCountryModel>(context, listen: false);
 
   String get langCode => Provider.of<AppModel>(context, listen: false).langCode;
 
@@ -50,6 +51,8 @@ class _ShippingAddressState extends State<ShippingAddress> {
   final Map<AddressFieldType, TextEditingController> _textControllers = {};
 
   final Map<AddressFieldType, FocusNode> _focusNodes = {};
+
+  CountryAddressFieldsConfig? countryFields;
 
   Address? address;
   List<Country>? countries = [];
@@ -67,7 +70,7 @@ class _ShippingAddressState extends State<ShippingAddress> {
 
     /// Pre-fill the address fields.
     WidgetsBinding.instance.endOfFrame.then(
-          (_) async {
+      (_) async {
         await preFillData();
       },
     );
@@ -101,12 +104,12 @@ class _ShippingAddressState extends State<ShippingAddress> {
   }
 
   void initializeFields() {
-    final countryFields = Configurations.addressFields.firstWhereOrNull(
-          (element) => element.country == selectedCountryModel.selectedIsoCode,
+    countryFields = Configurations.addressFields.firstWhereOrNull(
+      (element) => element.country == selectedCountryModel.selectedIsoCode,
     );
 
     for (var oneAddressField
-    in countryFields?.addressFields ?? DefaultConfig.addressFields) {
+        in countryFields?.addressFields ?? DefaultConfig.addressFields) {
       final index = _fieldsPositions.values.length;
       _fieldsConfigs[index] = oneAddressField;
       _fieldsPositions[index] = oneAddressField.type;
@@ -118,7 +121,7 @@ class _ShippingAddressState extends State<ShippingAddress> {
   Future<void> preFillData() async {
     /// Load saved addresses.
     final addressValue =
-    await Provider.of<CartModel>(context, listen: false).getAddress(
+        await Provider.of<CartModel>(context, listen: false).getAddress(
       selectedCountryModel.selectedIsoCode,
     );
     if (addressValue != null) {
@@ -142,7 +145,7 @@ class _ShippingAddressState extends State<ShippingAddress> {
     }
 
     address = address?.copyWith(
-        country: () => selectedCountryModel.selectedIsoCode) ??
+            country: () => selectedCountryModel.selectedIsoCode) ??
         Address(country: selectedCountryModel.selectedIsoCode);
 
     /// Init default fields.
@@ -176,7 +179,7 @@ class _ShippingAddressState extends State<ShippingAddress> {
       /// Load phone number.
       try {
         final phoneNumber =
-        _textControllers[AddressFieldType.phoneNumber]?.text.trim();
+            _textControllers[AddressFieldType.phoneNumber]?.text.trim();
         if (phoneNumber?.isNotEmpty ?? false) {
           initialPhoneNumber = await PhoneNumber.getParsablePhoneNumber(
             PhoneNumber(
@@ -200,8 +203,8 @@ class _ShippingAddressState extends State<ShippingAddress> {
     /// Load country list.
     // countries = await Services().widget.loadCountries();
     var country = countries!.firstWhereOrNull(
-          (element) =>
-      element.code!.toUpperCase() == selectedCountryModel.selectedIsoCode,
+      (element) =>
+          element.code!.toUpperCase() == selectedCountryModel.selectedIsoCode,
     );
     if (country == null) {
       if (countries!.isNotEmpty) {
@@ -223,24 +226,25 @@ class _ShippingAddressState extends State<ShippingAddress> {
 
     /// Load cities.
     var state = states?.firstWhereOrNull(
-          (element) =>
-      element.id == address?.state || element.code == address?.state,
+      (element) =>
+          element.id == address?.state || element.code == address?.state,
     );
-      cities = states?.map((e) => e.toCity()).toList();
-      var city = cities?.firstWhereOrNull(
-            (element) => element.name == address?.city,
-      );
+    cities = states?.map((e) => e.toCity()).toList();
+    var city = cities?.firstWhereOrNull(
+      (element) => element.name == address?.city,
+    );
 
-      /// Load zipCode
-      if (city != null) {
-        var zipCode = await Services().widget.loadZipCode(country, CountryState(), city);
-        if (zipCode != null) {
-          /// Override the default value with this value
-          address!.zipCode = zipCode;
-          _textControllers[AddressFieldType.zipCode]?.text = zipCode;
-        }
+    /// Load zipCode
+    if (city != null) {
+      var zipCode =
+          await Services().widget.loadZipCode(country, CountryState(), city);
+      if (zipCode != null) {
+        /// Override the default value with this value
+        address!.zipCode = zipCode;
+        _textControllers[AddressFieldType.zipCode]?.text = zipCode;
       }
-      refresh();
+    }
+    refresh();
   }
 
   void selectedIsoCodeListener() async {
@@ -313,7 +317,7 @@ class _ShippingAddressState extends State<ShippingAddress> {
   List<Widget> buildTextFields(String countryName) {
     return List.generate(
       _fieldsPositions.length,
-          (index) {
+      (index) {
         final isVisible = _fieldsConfigs[index]?.visible ?? true;
         if (!isVisible) {
           return const SizedBox();
@@ -345,7 +349,7 @@ class _ShippingAddressState extends State<ShippingAddress> {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           foregroundColor:
-                          Theme.of(context).colorScheme.secondary,
+                              Theme.of(context).colorScheme.secondary,
                           backgroundColor: Theme.of(context).primaryColorLight,
                           elevation: 0.0,
                         ),
@@ -356,8 +360,8 @@ class _ShippingAddressState extends State<ShippingAddress> {
                                 kIsWeb
                                     ? kGoogleApiKey.web
                                     : isIos
-                                    ? kGoogleApiKey.ios
-                                    : kGoogleApiKey.android,
+                                        ? kGoogleApiKey.ios
+                                        : kGoogleApiKey.android,
                               ),
                             ),
                           );
@@ -371,7 +375,7 @@ class _ShippingAddressState extends State<ShippingAddress> {
                             if (result.latLng?.latitude != null &&
                                 result.latLng?.latitude != null) {
                               address!.mapUrl =
-                              'https://maps.google.com/maps?q=${result.latLng?.latitude},${result.latLng?.longitude}&output=embed';
+                                  'https://maps.google.com/maps?q=${result.latLng?.latitude},${result.latLng?.longitude}&output=embed';
                               address!.latitude =
                                   result.latLng?.latitude.toString();
                               address!.longitude =
@@ -382,7 +386,7 @@ class _ShippingAddressState extends State<ShippingAddress> {
                             final c = Country(
                                 id: result.country, name: result.country);
                             states =
-                            await Services().widget.loadStates(c, langCode);
+                                await Services().widget.loadStates(c, langCode);
                             setState(() {});
                           }
                         },
@@ -416,26 +420,30 @@ class _ShippingAddressState extends State<ShippingAddress> {
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Theme.of(context).colorScheme.secondary,
                   backgroundColor:
-                  Theme.of(context).brightness == Brightness.dark
-                      ? Theme.of(context).primaryColorLight
-                      : Colors.grey[300],
+                      Theme.of(context).brightness == Brightness.dark
+                          ? Theme.of(context).primaryColorLight
+                          : Colors.grey[300],
                   elevation: 0.0,
                 ),
-
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>  ChooseAddressScreen((address){
-                        phoneNumecode=address!.country!;
-                        selectedCountryModel.selectedIsoCode=phoneNumecode;
-                        _fieldsConfigs.clear();
-                        _fieldsPositions.clear();
-                        _textControllers.clear();
-                        _focusNodes.clear();
-                        initializeFields();
-                        preFillData();
-                      }),
+                      builder: (context) => ChooseAddressScreen(
+                        callback: (address) {
+                          final isoCode = address?.country;
+
+                          if (isoCode != null) {
+                            selectedCountryModel.selectedIsoCode = isoCode;
+                            _fieldsConfigs.clear();
+                            _fieldsPositions.clear();
+                            _textControllers.clear();
+                            _focusNodes.clear();
+                            initializeFields();
+                            preFillData();
+                          }
+                        },
+                      ),
                     ),
                   );
                 },
@@ -449,13 +457,13 @@ class _ShippingAddressState extends State<ShippingAddress> {
                     const SizedBox(width: 10.0),
                     Text(
                       S.of(context).selectAddress.toUpperCase(),
-                                        style:Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey
-                        ,
-                          fontFamily: GoogleFonts.cairo().fontFamily,
-                           ),
-                        // color: Theme.of(context).brightness == Brightness.dark
-                        //       ? Theme.of(context).colorScheme.secondary
-                        //       : Theme.of(context).colorScheme.primary),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: Colors.grey,
+                            fontFamily: GoogleFonts.cairo().fontFamily,
+                          ),
+                      // color: Theme.of(context).brightness == Brightness.dark
+                      //       ? Theme.of(context).colorScheme.secondary
+                      //       : Theme.of(context).colorScheme.primary),
                     ),
                   ],
                 ),
@@ -494,7 +502,7 @@ class _ShippingAddressState extends State<ShippingAddress> {
           return InternationalPhoneNumberInput(
             /// Auto focus first field if it's empty.
             autoFocus:
-            index == 0 && (currentFieldController?.text.isEmpty ?? false),
+                index == 0 && (currentFieldController?.text.isEmpty ?? false),
             textFieldController: currentFieldController,
             focusNode: currentFieldFocusNode,
             isReadOnly: isFieldReadOnly(index),
@@ -506,7 +514,7 @@ class _ShippingAddressState extends State<ShippingAddress> {
             ),
             keyboardType: getKeyboardType(currentFieldType),
             keyboardAction:
-            hasNext ? TextInputAction.next : TextInputAction.done,
+                hasNext ? TextInputAction.next : TextInputAction.done,
 
             onFieldSubmitted: (_) {
               if (hasNext) {
@@ -534,9 +542,8 @@ class _ShippingAddressState extends State<ShippingAddress> {
               showFlags: kPhoneNumberConfig.showCountryFlag,
               selectorType: kPhoneNumberConfig.selectorType,
               setSelectorButtonAsPrefixIcon:
-              kPhoneNumberConfig.selectorFlagAsPrefixIcon,
+                  kPhoneNumberConfig.selectorFlagAsPrefixIcon,
               leadingPadding: 0,
-
               trailingSpace: true,
             ),
             selectorTextStyle: Theme.of(context).textTheme.titleMedium,
@@ -546,16 +553,15 @@ class _ShippingAddressState extends State<ShippingAddress> {
             countries: kPhoneNumberConfig.customCountryList,
             locale: langCode,
             searchBoxDecoration: InputDecoration(
-              labelText: S.of(context).searchByCountryNameOrDialCode ,
+              labelText: S.of(context).searchByCountryNameOrDialCode,
             ),
           );
         }
 
         return TextFormField(
-
           /// Auto focus first field if it's empty.
           autofocus:
-          index == 0 && (currentFieldController?.text.isEmpty ?? false),
+              index == 0 && (currentFieldController?.text.isEmpty ?? false),
           autocorrect: false,
           controller: currentFieldController,
           focusNode: currentFieldFocusNode,
@@ -573,7 +579,7 @@ class _ShippingAddressState extends State<ShippingAddress> {
           keyboardType: getKeyboardType(currentFieldType),
           textCapitalization: TextCapitalization.words,
           textInputAction:
-          hasNext ? TextInputAction.next : TextInputAction.done,
+              hasNext ? TextInputAction.next : TextInputAction.done,
           validator: (val) {
             final fieldConfig = _fieldsConfigs[index];
             if (fieldConfig == null) {
@@ -587,9 +593,9 @@ class _ShippingAddressState extends State<ShippingAddress> {
             }
           },
           onSaved: (value) => onTextFieldSaved(
-                value,
-                currentFieldType,
-              ),
+            value,
+            currentFieldType,
+          ),
         );
       },
     );
