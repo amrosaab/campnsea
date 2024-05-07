@@ -314,7 +314,7 @@ class AdvancedConfig {
           ? VersionCheckConfig.fromJson(json['versionCheck'])
           : VersionCheckConfig(
         // To compatible with old version
-        enable: json['enableVersionCheck'] == true,
+        enable:json['enableVersionCheck'] != null ? json['enableVersionCheck'] == true : true,
       ),
       ajaxSearchURL:
       json['AjaxSearchURL'] ?? DefaultConfig.advanceConfig['AjaxSearchURL'],
