@@ -1,11 +1,9 @@
 import 'dart:async';
 
-import 'package:provider/provider.dart';
 import 'package:quiver/strings.dart';
 
 import '../../../common/config.dart';
 import '../../../data/boxes.dart';
-import '../../../screens/checkout/widgets/selected_country_model.dart';
 import '../../../services/index.dart';
 import '../../entities/address.dart';
 import '../../entities/shipping_method.dart';
@@ -95,20 +93,12 @@ mixin AddressMixin on CartMixin {
     address = null;
   }
 
-  setxx(){
-
-  }
-
-  setAddress(Address? data, {String? isoCode}) {
-    print("nnnmnnnnbb")                          ;
-    ///
+  void setAddress(Address? data, {String? isoCode}) {
     address = data;
     final selectedIsoCode = isoCode ?? kPhoneNumberConfig.countryCodeDefault;
-    // Provider.of<SelectedCountryModel>(context, listen: false)
-    // saveShippingAddress(data, selectedIsoCode);
+    saveShippingAddress(data, selectedIsoCode);
   }
 
-  ///
   Future<Address?> getAddress(String selectedIsoCode) async {
     address = await getShippingAddress(selectedIsoCode);
     return address;
