@@ -202,7 +202,10 @@ class _StateChooseAddress extends BaseScreen<ChooseAddressScreen> {
             phoneNumber: user!.billing!.phone,
             city: user!.billing!.city,
             zipCode: user!.billing!.postCode);
-        Provider.of<CartModel>(context, listen: false).setAddress(add);
+        Provider.of<CartModel>(context, listen: false).setAddress(
+          add,
+          isoCode: user?.billing?.country,
+        );
         Navigator.of(context).pop();
         widget.callback(add);
       },
@@ -255,7 +258,10 @@ class _StateChooseAddress extends BaseScreen<ChooseAddressScreen> {
           zipCode: user!.shipping!.postCode,
           phoneNumber: user!.shipping!.phone,
         );
-        Provider.of<CartModel>(context, listen: false).setAddress(add);
+        Provider.of<CartModel>(context, listen: false).setAddress(
+          add,
+          isoCode: user?.billing?.country,
+        );
         Navigator.of(context).pop();
         widget.callback(add);
       },
