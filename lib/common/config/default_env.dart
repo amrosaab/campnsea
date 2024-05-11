@@ -458,6 +458,7 @@ class DefaultConfig {
 
   static FormatAddress formatAddress = ({
     String? province,
+    String? sector,
     String? city,
     String? street,
     String? block,

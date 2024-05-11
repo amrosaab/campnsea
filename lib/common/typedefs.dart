@@ -1,5 +1,6 @@
 typedef FormatAddress = Map<String, String> Function({
 String? province,
+String? sector,
 String? city,
 String? street,
 String? block,

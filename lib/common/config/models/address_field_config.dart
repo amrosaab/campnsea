@@ -29,6 +29,14 @@ enum AddressFieldType {
     autofillHint: AutofillHints.addressState,
     keyboardType: TextInputType.streetAddress,
   ),
+  province(
+    autofillHint: AutofillHints.addressState,
+    keyboardType: TextInputType.streetAddress,
+  ),
+  sector(
+    autofillHint: AutofillHints.addressState,
+    keyboardType: TextInputType.streetAddress,
+  ),
   city(
     autofillHint: AutofillHints.addressCity,
     keyboardType: TextInputType.streetAddress,

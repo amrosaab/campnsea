@@ -2,7 +2,8 @@
 import 'common/constants/country_phone_codes.dart';
 
 Map<String, dynamic> environment = {
-  "appConfig": "https://raw.githubusercontent.com/campnsea/CampnseaApp/main/config_ar.json",
+  "appConfig":
+      "https://raw.githubusercontent.com/campnsea/CampnseaApp/main/config_ar.json",
   "serverConfig": {
     'type': 'shopify',
 
@@ -1497,7 +1498,7 @@ Map<String, dynamic> environment = {
           'position': 9,
         },
         {
-          'type': 'block2',
+          'type': 'province',
           'visible': true,
           'position': 10,
           'editable': true,
@@ -1505,14 +1506,14 @@ Map<String, dynamic> environment = {
           'defaultValue': '',
         },
         {
-          'type': 'apartment',
+          'type': 'sector',
           'visible': true,
           'position': 11,
           'editable': true,
           'required': false,
         },
         {
-          'type': 'block',
+          'type': 'street',
           'visible': true,
           'position': 12,
           'editable': true,
@@ -1520,7 +1521,7 @@ Map<String, dynamic> environment = {
           'defaultValue': '',
         },
         {
-          'type': 'street',
+          'type': 'block',
           'visible': true,
           'position': 13,
           'editable': true,
@@ -1528,9 +1529,24 @@ Map<String, dynamic> environment = {
           'defaultValue': '',
         },
         {
+          'type': 'block2',
+          'visible': true,
+          'position': 14,
+          'editable': true,
+          'required': false,
+          'defaultValue': '',
+        },
+        {
+          'type': 'apartment',
+          'visible': true,
+          'position': 15,
+          'editable': true,
+          'required': false,
+        },
+        {
           'type': 'zipCode',
           'visible': false,
-          'position': 14,
+          'position': 16,
           'editable': false,
           'required': true,
           'defaultValue': '00000',
@@ -1539,6 +1555,7 @@ Map<String, dynamic> environment = {
       'formatAddress': ({
         String? province,
         String? city,
+        String? sector,
         String? street,
         String? block,
         String? block2,
@@ -1549,8 +1566,7 @@ Map<String, dynamic> environment = {
         return {
           if (province != null) 'province': province,
           if (city != null) 'city': city,
-          'address1':
-          'Area: $city, Block: $block2, Street: $apartment, Building: $block, ${(street ?? '') == '' ? '' : 'Floor: $street, '} ${(street ?? '') == '' ? '' : 'Flat: $zipCode'}',
+          'address1':'Area: $city, area: $province,Block:${sector??''}, Street: $street, Building: $block, ${(street ?? '') == '' ? '' : 'Floor: $block2, '} ${(block2 ?? '') == '' ? '' : 'Flat: $apartment'}',
           'address2': '${block!}, ${block2 ?? ''}',
         };
       },

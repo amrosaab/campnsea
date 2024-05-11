@@ -11,6 +11,9 @@ class Address {
   String? apartment;
   String? block;
   String? block2;
+  String? province;
+  String? province2;
+  String? sector;
   String? city;
   String? state;
   String? country;
@@ -30,6 +33,9 @@ class Address {
         this.apartment,
         this.block,
         this.block2,
+        this.province,
+        this.province2,
+        this.sector,
         this.city,
         this.state,
         this.country,
@@ -46,6 +52,9 @@ class Address {
     apartment = parsedJson['company'] ?? '';
     street = parsedJson['address_1'] ?? '';
     block = parsedJson['address_2'] ?? '';
+    province = parsedJson['province'] ?? '';
+    province2 = parsedJson['province2'] ?? '';
+    sector = parsedJson['sector'] ?? '';
     city = parsedJson['city'] ?? '';
     state = parsedJson['state'] ?? '';
     country = parsedJson['country'] ?? '';
@@ -65,6 +74,9 @@ class Address {
     apartment = parsedJson['company'];
     street = parsedJson['address_1'];
     block = parsedJson['address_2'];
+    province = parsedJson['province'] ?? '';
+    province2 = parsedJson['province2'] ?? '';
+    sector = parsedJson['sector'] ?? '';
     city = parsedJson['city'];
     state = parsedJson['zone_id'];
     country = parsedJson['country_id'];
@@ -81,6 +93,9 @@ class Address {
       block = streets.length > 1 ? streets[1] : '';
     }
 
+    province = parsedJson['province'] ?? '';
+    province2 = parsedJson['province2'] ?? '';
+    sector = parsedJson['sector'] ?? '';
     city = parsedJson['city'];
     state = parsedJson['region'];
     country = parsedJson['country_id'];
@@ -95,6 +110,9 @@ class Address {
     lastName = parsedJson['lastname'];
     street = parsedJson['address1'];
     block = parsedJson['address2'];
+    province = parsedJson['province'] ?? '';
+    province2 = parsedJson['province2'] ?? '';
+    sector = parsedJson['sector'] ?? '';
     city = parsedJson['city'];
     country = parsedJson['id_country'];
     phoneNumber = parsedJson['phone'];
@@ -110,6 +128,9 @@ class Address {
       'address_2': block ?? '',
       'block2': block2 ?? '',
       'company': apartment ?? '',
+      'province':province,
+      'province2':province2,
+      'sector' : sector,
       'city': city,
       'state': state,
       'country': country,
@@ -146,6 +167,9 @@ class Address {
       block = json['address_2'];
       block2 = json['block2'];
       apartment = json['company'];
+      province = json['province'] ?? '';
+      province2 = json['province2'] ?? '';
+      sector = json['sector'] ?? '';
       city = json['city'];
       state = json['state'];
       country = json['country'];
@@ -229,6 +253,9 @@ class Address {
       'address_1': street ?? '',
       'address_2': block ?? '',
       'company': apartment ?? '',
+      'province' :province,
+      'province2' :province2,
+      'sector': sector,
       'city': city,
       'state': state,
       'country': country,
@@ -271,6 +298,7 @@ class Address {
         if (formatAddress != null)
           ...formatAddress(
             province: state,
+            sector: sector,
             city: city,
             street: street,
             block: block,
