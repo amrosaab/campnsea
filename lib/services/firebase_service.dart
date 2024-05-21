@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flux_firebase/index.dart';
-import 'firebase/firebase_crashlytics_service.dart';
 
 import '../common/config.dart';
 import '../common/constants.dart';
 import '../common/tools.dart';
 import '../models/entities/firebase_error_exception.dart';
 import '../models/entities/user.dart';
+import 'firebase/firebase_crashlytics_service.dart';
 import 'firebase/index.dart';
 import 'index.dart';
 
