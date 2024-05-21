@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flux_firebase/index.dart';
+import 'firebase/firebase_crashlytics_service.dart';
 
 import '../common/config.dart';
 import '../common/constants.dart';
@@ -55,12 +56,27 @@ class FirebaseServices extends BaseFirebaseServices {
     } else {
       printLog('$message (without Google Play Services)', startTime);
     }
+
+    if (Configurations.enableFirebaseCrashlytics) {
+      _firebaseCrashlytics =
+      FirebaseServiceFactory.create<FirebaseCrashlyticsService>()!..init();
+    } else {
+      _firebaseCrashlytics = FirebaseCrashlyticsService()..init();
+    }
+
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   }
+ 
 
   /// Firebase Auth
   FirebaseAuthService? _auth;
 
   FirebaseAuthService? get auth => _auth;
+
+  /// Firebase Crashlytics
+  FirebaseCrashlyticsService? _firebaseCrashlytics;
+
+  FirebaseCrashlyticsService? get firebaseCrashlytics => _firebaseCrashlytics;
 
   /// Firebase Cloud Firestore
   FirebaseFirestore? _firestore;

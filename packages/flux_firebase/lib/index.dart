@@ -2,6 +2,7 @@ library flux_firebase;
 
 export 'package:cloud_firestore/cloud_firestore.dart';
 export 'package:firebase_core/firebase_core.dart';
+export 'package:firebase_crashlytics/firebase_crashlytics.dart';
 export 'package:firebase_messaging/firebase_messaging.dart';
 
 export 'firebase_auth_service.dart';
