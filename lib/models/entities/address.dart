@@ -298,6 +298,7 @@ class Address {
         if (formatAddress != null)
           ...formatAddress(
             province: state,
+            province2: province,
             sector: sector,
             city: city,
             street: street,

@@ -1554,6 +1554,7 @@ Map<String, dynamic> environment = {
       ],
       'formatAddress': ({
         String? province,
+        String? province2,
         String? city,
         String? sector,
         String? street,
@@ -1566,8 +1567,8 @@ Map<String, dynamic> environment = {
         return {
           if (province != null) 'province': province,
           if (city != null) 'city': city,
-          'address1':'Area: $city, area: $province,Block:${sector??''}, Street: $street, Building: $block, ${(street ?? '') == '' ? '' : 'Floor: $block2, '} ${(block2 ?? '') == '' ? '' : 'Flat: $apartment'}',
-          'address2': '${block!}, ${block2 ?? ''}',
+          'address1': 'Area: $province2, Block: ${sector??''}, Street: $street, Building: $block, ${block2!=null && block2.isNotEmpty?'Floor: $block2,':''} ${apartment!=null&&apartment.isNotEmpty?'Flat: $apartment':""} ',
+          'address2': '',
         };
       },
     },
