@@ -5,7 +5,7 @@ class DefaultConfig {
   static String appName = 'Fluxstore';
   static bool enableRemoteConfigFirebase = false;
   static bool enableFirebaseAnalytics = false;
-  static bool enableCrashAnalytics = false;
+  static bool enableFirebaseCrashlytics = false;
   static String defaultLanguage = '';
   static String baseUrl = '';
   static Map serverConfig = {};

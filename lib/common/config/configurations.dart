@@ -4,10 +4,10 @@ class Configurations {
   static String _environment = DefaultConfig.environment;
   static String _baseUrl = DefaultConfig.baseUrl;
   static String _appName = DefaultConfig.appName;
-  static bool _enableCrashAnalytics = DefaultConfig.enableCrashAnalytics;
   static bool _enableRemoteConfigFirebase =
       DefaultConfig.enableRemoteConfigFirebase;
   static bool _enableFirebaseAnalytics = DefaultConfig.enableFirebaseAnalytics;
+  static bool _enableFirebaseCrashlytics = DefaultConfig.enableFirebaseCrashlytics;
   static String _defaultLanguage = DefaultConfig.defaultLanguage;
   static Map serverConfig = DefaultConfig.serverConfig;
   static String _appConfig = DefaultConfig.appConfig;
@@ -94,11 +94,11 @@ class Configurations {
 
   static String get appName => _appName;
 
-  static bool get enableCrashAnalytics => _enableCrashAnalytics;
-
   static bool get enableRemoteConfigFirebase => _enableRemoteConfigFirebase;
 
   static bool get enableFirebaseAnalytics => _enableFirebaseAnalytics;
+
+  static bool get enableFirebaseCrashlytics => _enableFirebaseCrashlytics;
 
   static String get defaultLanguage => _defaultLanguage;
 
@@ -237,6 +237,7 @@ class Configurations {
   static Map? get reviewConfig => _reviewConfig;
 
   static List<MultiSiteConfig>? get multiSiteConfigs => _multiSiteConfigs;
+
   static String get mainSiteUrl => (_multiSiteConfigs?.isNotEmpty ?? false)
       ? _multiSiteConfigs!.first.serverConfig!['url']
       : serverConfig['url'];
@@ -245,12 +246,13 @@ class Configurations {
     _environment = value['environment'] ?? DefaultConfig.environment;
     _baseUrl = value['baseUrl'] ?? DefaultConfig.baseUrl;
     _appName = value['app_name'] ?? DefaultConfig.appName;
-    _enableCrashAnalytics =
-        value['enableCrashAnalytics'] ?? DefaultConfig.enableCrashAnalytics;
+   
     _enableRemoteConfigFirebase = value['enableRemoteConfigFirebase'] ??
         DefaultConfig.enableRemoteConfigFirebase;
-    _enableFirebaseAnalytics = value['enableFirebaseAnalytics'] ??
+   _enableFirebaseAnalytics = value['enableFirebaseAnalytics'] ??
         DefaultConfig.enableFirebaseAnalytics;
+    _enableFirebaseCrashlytics = value['enableFirebaseCrashlytics'] ??
+        DefaultConfig.enableFirebaseCrashlytics;
     _defaultLanguage =
         value['defaultLanguage'] ?? DefaultConfig.defaultLanguage;
     _appConfig = value['appConfig'] ?? DefaultConfig.appConfig;
@@ -422,8 +424,8 @@ class Configurations {
       _environment = value['environment'] ?? _environment;
       _baseUrl = value['baseUrl'] ?? _baseUrl;
       _appName = value['app_name'] ?? _appName;
-      _enableCrashAnalytics =
-          value['enableCrashAnalytics'] ?? _enableCrashAnalytics;
+      _enableFirebaseCrashlytics =
+          value['enableFirebaseCrashlytics'] ?? _enableFirebaseCrashlytics;
       _enableRemoteConfigFirebase =
           value['enableRemoteConfigFirebase'] ?? _enableRemoteConfigFirebase;
       _enableFirebaseAnalytics =

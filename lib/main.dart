@@ -21,6 +21,7 @@ import 'modules/webview/index.dart';
 import 'services/dependency_injection.dart';
 import 'services/locale_service.dart';
 import 'services/services.dart';
+import 'dart:isolate';
 
 Future<void> _firebaseMessagingBackgroundHandler(dynamic message) async {
   await Firebase.initializeApp();
@@ -117,6 +118,20 @@ void main() {
 
     ResponsiveSizingConfig.instance.setCustomBreakpoints(
         const ScreenBreakpoints(desktop: 900, tablet: 600, watch: 100));
+
+    Isolate.current.addErrorListener(RawReceivePort((pair) async {
+      final List<dynamic> errorAndStacktrace = pair;
+      await FirebaseCrashlytics.instance.recordError(
+        errorAndStacktrace.first,
+        errorAndStacktrace.last,
+      );
+    }).sendPort);
+
     runApp(App(languageCode: languageCode));
-  }, printError);
+  },  (error, stack) {
+    printError(error, stack);
+    FirebaseCrashlytics.instance.recordError(error, stack);
+  },
+  );
+
 }
