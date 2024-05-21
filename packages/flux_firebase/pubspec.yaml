@@ -21,6 +21,7 @@ dependencies:
   firebase_remote_config: 4.2.3
   firebase_dynamic_links: 5.3.3
   cloud_firestore: 4.8.1
+  firebase_crashlytics: ^3.3.3
 
   # Additional Firebase packages. To prevent unexpected upgrade.
   firebase_core_platform_interface: 4.8.0

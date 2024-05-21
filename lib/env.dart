@@ -19,6 +19,7 @@ Map<String, dynamic> environment = {
   "defaultDarkTheme": false,
   "enableRemoteConfigFirebase": false,
   "enableFirebaseAnalytics": true,
+ "enableFirebaseCrashlytics": true,
   "loginSMSConstants": {
     "countryCodeDefault": "KW",
     "dialCodeDefault": "+965",
