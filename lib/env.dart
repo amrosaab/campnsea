@@ -912,11 +912,12 @@ Map<String, dynamic> environment = {
     "DefaultStateISOCode": "",
 
     /// Enable the Shipping option from Checkout, support for the Digital Download
-    "EnableShipping": true,
+    /// hokshedit
+    "EnableShipping": false,
 
     /// Enable the address shipping.
     /// Set false if use for the app like Download Digial Asset which is not required the shipping feature.
-    "EnableAddress": true,
+    "EnableAddress": false,
 
     /// Allow customers to add note when order
     "EnableCustomerNote": true,
@@ -936,7 +937,7 @@ Map<String, dynamic> environment = {
     "GuestCheckout": true,
 
     /// Enable Payment option
-    "EnableOnePageCheckout": false,
+    "EnableOnePageCheckout": true,
     "NativeOnePageCheckout": false,
 
     "ShowWebviewCheckoutSuccessScreen": true,

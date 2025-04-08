@@ -2,14 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
-import 'package:dio/dio.dart';
 import 'package:graphql/client.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../common/config.dart' show kAdvanceConfig, kShopifyPaymentConfig;
 import '../../../common/constants.dart';
-import '../../../common/typedefs.dart';
 import '../../../data/boxes.dart';
 import '../../../generated/l10n.dart';
 import '../../../models/cart/cart_model_shopify.dart';
@@ -485,7 +483,7 @@ class ShopifyService extends BaseServices {
         printLog(
             '::::request fetchProductsByCategory with cursor $currentCursor');
 
-        final result = await searchProductsSearchanise(
+        final result = await searchProducts(
           name: search,
           page: currentCursor,
           sortKey: orderBy,
@@ -568,64 +566,134 @@ class ShopifyService extends BaseServices {
   //   }
   // }
 
+  Future<CheckoutCart> getCart(String cartId) async {
+    try {
+      final QueryOptions options = QueryOptions(
+        document: gql('''
+        query getCartWithShipping(\$cartId: ID!) {
+          cart(id: \$cartId) {
+            id
+            checkoutUrl
+            lines(first: 100) {
+              edges {
+                node {
+                  id
+                  quantity
+                  merchandise {
+                    ... on ProductVariant {
+                      id
+                      title
+                    }
+                  }
+                }
+              }
+            }
+            estimatedCost {
+              totalAmount {
+                amount
+                currencyCode
+              }
+            }
+            availableShippingRates {
+              ready
+              shippingRates {
+                handle
+                title
+                priceV2 {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+      '''),
+        variables: {'cartId': cartId},
+      );
+
+      final result = await client.query(options);
+
+      if (result.hasException) {
+        throw Exception('Failed to fetch cart: ${result.exception}');
+      }
+
+      final cartData = result.data?['cart'];
+      if (cartData == null) {
+        throw Exception('Cart not found');
+      }
+
+      return CheckoutCart.fromJsonShopify(cartData);
+    } catch (e) {
+      printLog('Error in getCart: $e');
+      rethrow;
+    }
+  }
+
   @override
   Future<List<ShippingMethod>> getShippingMethods({
     CartModel? cartModel,
     String? token,
     String? checkoutId,
     store_model.Store? store,
-    String? langCode,
-    FormatAddress? formatAddress,
-  }) async {
+    // FormatAddress? formatAddress,
+
+  })
+  async {
     try {
-      var list = <ShippingMethod>[];
-      var newAddress = cartModel!.address!.toShopifyJson(
-        formatAddress: formatAddress,
-      )['address'];
-
-      printLog('getShippingMethods with checkoutId $checkoutId');
-
-      final options = MutationOptions(
-        document: gql(ShopifyQuery.updateShippingAddress),
-        fetchPolicy: FetchPolicy.noCache,
-        variables: {'shippingAddress': newAddress, 'checkoutId': checkoutId},
+      final options = QueryOptions(
+        document: gql(r'''
+        query getCartShippingRates(
+          $cartId: ID!
+          $country: CountryCode
+          $address: MailingAddressInput
+        ) @inContext(country: $country) {
+          cart(id: $cartId) {
+            id
+            deliveryGroups {
+              id
+              deliveryOptions {
+                handle
+                title
+                description
+                price {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+      '''),
+        variables: {
+          'cartId': checkoutId,
+          // 'country': shippingAddress['country'] ?? 'US',
+          // 'address': shippingAddress,
+        },
       );
 
-      final result = await client.mutate(options);
+      final result = await client.query(options);
 
       if (result.hasException) {
-        printLog(result.exception.toString());
-        throw ('So sorry, We do not support shipping to your address.');
+        throw Exception('Failed to fetch shipping rates: ${result.exception}');
       }
 
-      final checkout = await getCheckout(checkoutId: checkoutId);
-
-      final availableShippingRates = checkout['availableShippingRates'];
-
-      if (availableShippingRates != null && availableShippingRates['ready']) {
-        for (var item in availableShippingRates['shippingRates']) {
-          list.add(ShippingMethod.fromShopifyJson(item));
-        }
-      } else {
-        await Future.delayed(const Duration(milliseconds: 500));
-        final checkoutData = await getCheckout(checkoutId: checkoutId);
-        for (var item in checkoutData['availableShippingRates']
-            ['shippingRates']) {
-          list.add(ShippingMethod.fromShopifyJson(item));
-        }
+      final deliveryGroups = result.data?['cart']?['deliveryGroups'] as List?;
+      if (deliveryGroups == null || deliveryGroups.isEmpty) {
+        return [];
       }
 
-      // update checkout
-      CheckoutCart.fromJsonShopify(checkout);
+      final shippingOptions = deliveryGroups
+          .expand((group) => group['deliveryOptions'] as List)
+          .toList();
 
-      printLog(
-          '::::getShippingMethods ${list.map((e) => e.toString()).join(', ')}');
-
-      return list;
+      return shippingOptions.map((option) => ShippingMethod.fromJson({
+        'handle': option['handle'],
+        'title': option['title'],
+        'priceV2': option['price'],
+      })).toList();
     } catch (e) {
-      printLog('::::getShippingMethods shopify error');
-      printLog(e.toString());
-      throw ('So sorry, We do not support shipping to your address.');
+      printLog('Error getting shipping rates: $e');
+      return [];
     }
   }
 
@@ -755,70 +823,6 @@ class ShopifyService extends BaseServices {
       printLog(list);
 
       return PagingResponse(data: list, cursor: lastCursor);
-    } catch (e) {
-      printLog('::::searchProducts shopify error');
-      printLog(e.toString());
-      rethrow;
-    }
-  }
-
-  @override
-  Future<PagingResponse<Product>> searchProductsSearchanise({
-    name,
-    categoryId = '',
-    categoryName = '',
-    tag = '',
-    attribute = '',
-    attributeId = '',
-    page,
-    listingLocation,
-    userId,
-    String? sortKey,
-    bool reverse = false,
-  }) async {
-    try {
-      // search Products Searchanise API HERE
-      printLog('::::request searchProductsSearchanise');
-      const pageSize = 10;
-      Dio dio;
-      dio = Dio(
-        BaseOptions(
-          baseUrl: 'https://searchserverapi.com',
-          headers: {'Content-Type': 'application/json'},
-        ),
-      );
-
-      final result = await dio.get('/search', queryParameters: {
-        'api_key': '9q7k2Q7C9R',
-        'q': name,
-        'maxResults': pageSize,
-        'startIndex': page == null ? 0 : int.parse(page) * pageSize,
-        'items': true,
-        'pages': false,
-        'facets': false,
-        'categories': false,
-        'suggestions': false,
-        'vendors': false,
-        'tags': false,
-        'pageStartIndex': 0,
-        'pagesMaxResults': 0,
-        'categoryStartIndex': 0,
-        'categoriesMaxResults': 0,
-        'suggestionsMaxResults': 0,
-        'output': 'jsonp'
-      });
-
-      final data = result.data;
-      Map dataMap = Map<String, dynamic>.from(jsonDecode(data));
-      final items = dataMap['items'];
-
-      final list = await Future.wait<Product>(
-        items.map<Future<Product>>((item) => getProduct(item['product_id'])),
-      );
-
-      printLog(list);
-      var cursor = page == null ? 1 : int.parse(page) + 1;
-      return PagingResponse(data: list, cursor: '$cursor');
     } catch (e) {
       printLog('::::searchProducts shopify error');
       printLog(e.toString());
@@ -1090,129 +1094,241 @@ class ShopifyService extends BaseServices {
     return checkout;
   }
 
-  Future addItemsToCart(CartModelShopify cartModel) async {
+  // Future addItemsToCart(CartModelShopify cartModel) async {
+  //   final cookie = cartModel.user?.cookie;
+  //   try {
+  //     if (cookie != null) {
+  //       var lineItems = [];
+  //
+  //       printLog('addItemsToCart productsInCart ${cartModel.productsInCart}');
+  //       printLog(
+  //           'addItemsToCart productVariationInCart ${cartModel.productVariationInCart}');
+  //
+  //       for (var productId in cartModel.productVariationInCart.keys) {
+  //         // TODO(fahjan): campnsea error with Variation.
+  //         // var variant = cartModel.productVariationInCart[productId]!;
+  //         var variant =
+  //             cartModel.productVariationInCart[productId] ?? ProductVariation();
+  //         var productCart = cartModel.productsInCart[productId];
+  //
+  //         printLog('addItemsToCart $variant');
+  //
+  //         lineItems.add({'variantId': variant.id, 'quantity': productCart});
+  //       }
+  //
+  //       printLog('addItemsToCart lineItems $lineItems');
+  //       final options = MutationOptions(
+  //         document: gql(ShopifyQuery.createCheckout),
+  //         variables: {
+  //           'input': {
+  //             'lineItems': lineItems,
+  //             if (cartModel.address != null) ...{
+  //               'email': cartModel.address!.email,
+  //             }
+  //           },
+  //           'langCode': cartModel.langCode?.toUpperCase(),
+  //           'countryCode': countryCode,
+  //         },
+  //       );
+  //
+  //       final result = await client.mutate(options);
+  //
+  //       if (result.hasException) {
+  //         printLog(result.exception.toString());
+  //         throw Exception(result.exception.toString());
+  //       }
+  //
+  //       final checkout = result.data!['checkoutCreate']['checkout'];
+  //
+  //       printLog('addItemsToCart checkout $checkout');
+  //
+  //       // start link checkout with user
+  //       final newCheckout = await (checkoutLinkUser(checkout['id'], cookie));
+  //
+  //       return CheckoutCart.fromJsonShopify(newCheckout ?? {});
+  //     } else {
+  //       throw ('You need to login to checkout');
+  //     }
+  //   } catch (e) {
+  //     printLog('::::addItemsToCart shopify error');
+  //     printLog(e.toString());
+  //     rethrow;
+  //   }
+  // }
+  //
+  // Future updateItemsToCart(CartModelShopify cartModel, String? cookie) async {
+  //   try {
+  //     if (cookie != null) {
+  //       var lineItems = [];
+  //       var checkoutId = cartModel.checkout!.id;
+  //
+  //       printLog(
+  //           'updateItemsToCart productsInCart ${cartModel.productsInCart}');
+  //       printLog(
+  //           'updateItemsToCart productVariationInCart ${cartModel.productVariationInCart}');
+  //
+  //       for (var productId in cartModel.productVariationInCart.keys) {
+  //         var variant = cartModel.productVariationInCart[productId]!;
+  //         var productCart = cartModel.productsInCart[productId];
+  //
+  //         printLog('updateItemsToCart $variant');
+  //
+  //         lineItems.add({'variantId': variant.id, 'quantity': productCart});
+  //       }
+  //
+  //       printLog('updateItemsToCart lineItems $lineItems');
+  //
+  //       final options = MutationOptions(
+  //         document: gql(ShopifyQuery.updateCheckout),
+  //         variables: <String, dynamic>{
+  //           'lineItems': lineItems,
+  //           'checkoutId': checkoutId,
+  //           'countryCode': countryCode,
+  //         },
+  //       );
+  //
+  //       final result = await client.mutate(options);
+  //
+  //       if (result.hasException) {
+  //         printLog(result.exception.toString());
+  //         throw Exception(result.exception.toString());
+  //       }
+  //
+  //       var checkout = result.data!['checkoutLineItemsReplace']['checkout'];
+  //
+  //       /// That case happen when user close and open app again
+  //       if (checkout == null) {
+  //         return await addItemsToCart(cartModel);
+  //       }
+  //
+  //       final checkoutCart = CheckoutCart.fromJsonShopify(checkout);
+  //
+  //       if (checkoutCart.email == null) {
+  //         // start link checkout with user
+  //         final newCheckout = await (checkoutLinkUser(checkout['id'], cookie));
+  //
+  //         return CheckoutCart.fromJsonShopify(newCheckout ?? {});
+  //       }
+  //
+  //       return checkoutCart;
+  //     } else {
+  //       throw S.current.youNeedToLoginCheckout;
+  //     }
+  //   } catch (err) {
+  //     printLog('::::updateItemsToCart shopify error');
+  //     printLog(err.toString());
+  //     rethrow;
+  //   }
+  // }
+
+  Future<CheckoutCart> addItemsToCart(CartModelShopify cartModel) async {
     final cookie = cartModel.user?.cookie;
+
     try {
-      if (cookie != null) {
-        var lineItems = [];
-
-        printLog('addItemsToCart productsInCart ${cartModel.productsInCart}');
-        printLog(
-            'addItemsToCart productVariationInCart ${cartModel.productVariationInCart}');
-
-        for (var productId in cartModel.productVariationInCart.keys) {
-          // TODO(fahjan): campnsea error with Variation.
-          // var variant = cartModel.productVariationInCart[productId]!;
-          var variant =
-              cartModel.productVariationInCart[productId] ?? ProductVariation();
-          var productCart = cartModel.productsInCart[productId];
-
-          printLog('addItemsToCart $variant');
-
-          lineItems.add({'variantId': variant.id, 'quantity': productCart});
-        }
-
-        printLog('addItemsToCart lineItems $lineItems');
-        final options = MutationOptions(
-          document: gql(ShopifyQuery.createCheckout),
-          variables: {
-            'input': {
-              'lineItems': lineItems,
-              if (cartModel.address != null) ...{
-                'email': cartModel.address!.email,
-              }
-            },
-            'langCode': cartModel.langCode?.toUpperCase(),
-            'countryCode': countryCode,
-          },
-        );
-
-        final result = await client.mutate(options);
-
-        if (result.hasException) {
-          printLog(result.exception.toString());
-          throw Exception(result.exception.toString());
-        }
-
-        final checkout = result.data!['checkoutCreate']['checkout'];
-
-        printLog('addItemsToCart checkout $checkout');
-
-        // start link checkout with user
-        final newCheckout = await (checkoutLinkUser(checkout['id'], cookie));
-
-        return CheckoutCart.fromJsonShopify(newCheckout ?? {});
-      } else {
-        throw ('You need to login to checkout');
+      if (cookie == null) {
+        throw Exception('User not authenticated');
       }
-    } catch (e) {
-      printLog('::::addItemsToCart shopify error');
-      printLog(e.toString());
+
+      printLog('Products in cart: ${cartModel.productsInCart}');
+      printLog('Variants in cart: ${cartModel.productVariationInCart}');
+
+      // Prepare line items
+      final lineItems = cartModel.productVariationInCart.entries.map((entry) {
+        final productId = entry.key;
+        final variant = entry.value;
+        final quantity = cartModel.productsInCart[productId] ?? 1;
+
+        if (variant?.id == null || variant!.id!.isEmpty) {
+          throw Exception('Invalid variant ID for product $productId');
+        }
+
+        // Ensure proper variant ID format
+        final merchandiseId = variant!.id!.startsWith('gid://shopify/ProductVariant/')
+            ? variant.id!
+            : 'gid://shopify/ProductVariant/${variant.id}';
+
+        return {
+          'merchandiseId': merchandiseId,
+          'quantity': quantity,
+        };
+      }).toList();
+
+      printLog('Prepared line items: $lineItems');
+
+      // Always create a new cart (checkout) for each update
+      final options = MutationOptions(
+        document: gql('''
+        mutation createCart(\$lines: [CartLineInput!]!, \$country: CountryCode) 
+        @inContext(country: \$country) {
+          cartCreate(input: {lines: \$lines}) {
+            cart {
+              id
+              checkoutUrl
+              lines(first: 100) {
+                edges {
+                  node {
+                    id
+                    quantity
+                    merchandise {
+                      ... on ProductVariant {
+                        id
+                        title
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            userErrors {
+              field
+              message
+            }
+          }
+        }
+      '''),
+        variables: {
+          'lines': lineItems,
+          'country': countryCode,
+        },
+      );
+
+      final result = await client.mutate(options);
+
+      if (result.hasException) {
+        final errors = result.exception?.graphqlErrors ?? [];
+        if (errors.isNotEmpty) {
+          final errorMessages = errors.map((e) => e.message).join(', ');
+          throw Exception('GraphQL errors: $errorMessages');
+        }
+        throw Exception('Failed to create cart: ${result.exception}');
+      }
+
+      final cartData = result.data?['cartCreate']?['cart'];
+      if (cartData == null) {
+        throw Exception('No cart data received');
+      }
+
+      return CheckoutCart.fromJsonShopify(cartData);
+
+    } catch (e, stack) {
+      printLog('Error in addItemsToCart: $e');
+      printLog('Stack trace: $stack');
       rethrow;
     }
   }
 
-  Future updateItemsToCart(CartModelShopify cartModel, String? cookie) async {
+  Future<CheckoutCart> updateItemsToCart(CartModelShopify cartModel, String? cookie) async {
     try {
-      if (cookie != null) {
-        var lineItems = [];
-        var checkoutId = cartModel.checkout!.id;
-
-        printLog(
-            'updateItemsToCart productsInCart ${cartModel.productsInCart}');
-        printLog(
-            'updateItemsToCart productVariationInCart ${cartModel.productVariationInCart}');
-
-        for (var productId in cartModel.productVariationInCart.keys) {
-          var variant = cartModel.productVariationInCart[productId]!;
-          var productCart = cartModel.productsInCart[productId];
-
-          printLog('updateItemsToCart $variant');
-
-          lineItems.add({'variantId': variant.id, 'quantity': productCart});
-        }
-
-        printLog('updateItemsToCart lineItems $lineItems');
-
-        final options = MutationOptions(
-          document: gql(ShopifyQuery.updateCheckout),
-          variables: <String, dynamic>{
-            'lineItems': lineItems,
-            'checkoutId': checkoutId,
-            'countryCode': countryCode,
-          },
-        );
-
-        final result = await client.mutate(options);
-
-        if (result.hasException) {
-          printLog(result.exception.toString());
-          throw Exception(result.exception.toString());
-        }
-
-        var checkout = result.data!['checkoutLineItemsReplace']['checkout'];
-
-        /// That case happen when user close and open app again
-        if (checkout == null) {
-          return await addItemsToCart(cartModel);
-        }
-
-        final checkoutCart = CheckoutCart.fromJsonShopify(checkout);
-
-        if (checkoutCart.email == null) {
-          // start link checkout with user
-          final newCheckout = await (checkoutLinkUser(checkout['id'], cookie));
-
-          return CheckoutCart.fromJsonShopify(newCheckout ?? {});
-        }
-
-        return checkoutCart;
-      } else {
-        throw S.current.youNeedToLoginCheckout;
+      if (cookie == null) {
+        throw Exception('User not authenticated');
       }
-    } catch (err) {
-      printLog('::::updateItemsToCart shopify error');
-      printLog(err.toString());
+
+      // For updates, we'll simply create a new cart with all current items
+      // This ensures we always have a clean state
+      return await addItemsToCart(cartModel);
+
+    } catch (e) {
+      printLog('updateItemsToCart error: $e');
       rethrow;
     }
   }
@@ -1332,6 +1448,7 @@ class ShopifyService extends BaseServices {
     required String checkoutId,
     required String email,
   }) async {
+    print("updateCheckoutEmail$checkoutId");
     final options = MutationOptions(
       document: gql(ShopifyQuery.updateCheckoutEmail),
       variables: <String, dynamic>{

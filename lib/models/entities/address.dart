@@ -1,7 +1,6 @@
 import 'package:country_pickers/utils/utils.dart';
 
 import '../../common/constants.dart';
-import '../../common/typedefs.dart';
 
 class Address {
   String? firstName;
@@ -30,12 +29,12 @@ class Address {
         this.lastName,
         this.email,
         this.street,
-        this.apartment,
-        this.block,
-        this.block2,
         this.province,
         this.province2,
         this.sector,
+        this.apartment,
+        this.block,
+        this.block2,
         this.city,
         this.state,
         this.country,
@@ -52,13 +51,13 @@ class Address {
     apartment = parsedJson['company'] ?? '';
     street = parsedJson['address_1'] ?? '';
     block = parsedJson['address_2'] ?? '';
-    province = parsedJson['province'] ?? '';
-    province2 = parsedJson['province2'] ?? '';
-    sector = parsedJson['sector'] ?? '';
     city = parsedJson['city'] ?? '';
     state = parsedJson['state'] ?? '';
     country = parsedJson['country'] ?? '';
     email = parsedJson['email'] ?? '';
+    province = parsedJson['province'] ?? '';
+    province2 = parsedJson['province2'] ?? '';
+    sector = parsedJson['sector'] ?? '';
     // final alphanumeric = RegExp(r'^[a-zA-Z0-9]+$');
     // if (alphanumeric.hasMatch(firstName!)) {
     //   phoneNumber = firstName;
@@ -74,11 +73,11 @@ class Address {
     apartment = parsedJson['company'];
     street = parsedJson['address_1'];
     block = parsedJson['address_2'];
+    city = parsedJson['city'];
+    state = parsedJson['zone_id'];
     province = parsedJson['province'] ?? '';
     province2 = parsedJson['province2'] ?? '';
     sector = parsedJson['sector'] ?? '';
-    city = parsedJson['city'];
-    state = parsedJson['zone_id'];
     country = parsedJson['country_id'];
     fullAddress = parsedJson['full_address'];
     zipCode = parsedJson['postcode'];
@@ -93,9 +92,6 @@ class Address {
       block = streets.length > 1 ? streets[1] : '';
     }
 
-    province = parsedJson['province'] ?? '';
-    province2 = parsedJson['province2'] ?? '';
-    sector = parsedJson['sector'] ?? '';
     city = parsedJson['city'];
     state = parsedJson['region'];
     country = parsedJson['country_id'];
@@ -103,6 +99,10 @@ class Address {
     phoneNumber = parsedJson['telephone'];
     fullAddress = parsedJson['full_address'];
     zipCode = parsedJson['postcode'];
+    province = parsedJson['province'] ?? '';
+    province2 = parsedJson['province2'] ?? '';
+
+    sector = parsedJson['sector'] ?? '';
   }
 
   Address.fromPrestaJson(Map<String, dynamic> parsedJson) {
@@ -110,14 +110,15 @@ class Address {
     lastName = parsedJson['lastname'];
     street = parsedJson['address1'];
     block = parsedJson['address2'];
-    province = parsedJson['province'] ?? '';
-    province2 = parsedJson['province2'] ?? '';
-    sector = parsedJson['sector'] ?? '';
     city = parsedJson['city'];
     country = parsedJson['id_country'];
     phoneNumber = parsedJson['phone'];
     fullAddress = parsedJson['full_address'];
     zipCode = parsedJson['postcode'];
+    province = parsedJson['province'] ?? '';
+    province2 = parsedJson['province2'] ?? '';
+
+    sector = parsedJson['sector'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -128,9 +129,6 @@ class Address {
       'address_2': block ?? '',
       'block2': block2 ?? '',
       'company': apartment ?? '',
-      'province':province,
-      'province2':province2,
-      'sector' : sector,
       'city': city,
       'state': state,
       'country': country,
@@ -138,6 +136,9 @@ class Address {
       'full_address': fullAddress,
       'postcode': zipCode,
       'mapUrl': mapUrl,
+    'province':province,
+    'province2':province2,
+    'sector' : sector
     };
     if (email != null && email!.isNotEmpty) {
       address['email'] = email;
@@ -167,9 +168,6 @@ class Address {
       block = json['address_2'];
       block2 = json['block2'];
       apartment = json['company'];
-      province = json['province'] ?? '';
-      province2 = json['province2'] ?? '';
-      sector = json['sector'] ?? '';
       city = json['city'];
       state = json['state'];
       country = json['country'];
@@ -178,6 +176,9 @@ class Address {
       fullAddress = json['full_address'];
       zipCode = json['postcode'];
       mapUrl = json['mapUrl'];
+      province = json['province'] ?? '';
+      province2 = json['province2'] ?? '';
+      sector = json['sector'] ?? '';
     } catch (e) {
       printLog(e.toString());
     }
@@ -253,9 +254,6 @@ class Address {
       'address_1': street ?? '',
       'address_2': block ?? '',
       'company': apartment ?? '',
-      'province' :province,
-      'province2' :province2,
-      'sector': sector,
       'city': city,
       'state': state,
       'country': country,
@@ -264,6 +262,9 @@ class Address {
       'full_address': fullAddress,
       'postcode': zipCode,
       'mapUrl': mapUrl,
+    'province' :province,
+    'province2' :province2,
+    'sector': sector
     };
   }
 
@@ -286,28 +287,22 @@ class Address {
     }
   }
 
-  Map<String, dynamic> toShopifyJson({FormatAddress? formatAddress}) {
+  Map<String, dynamic> toShopifyJson() {
     return {
       'address': {
+        'province': state!=null&&state!.isNotEmpty?state: city,
+        // 'province': state,
         'country': country,
+        'address1':'Area: $city, province: $province,Block:${sector??''}, Street: $street, Building: $block, ${(street ?? '') == '' ? '' : 'Floor: $block2, '} ${(block2 ?? '') == '' ? '' : 'Flat: $apartment'}',
+        'address2': '${block!}, ${block2 ?? ''}',
         'company': apartment,
+        'city': city,
         'firstName': firstName,
         'lastName': lastName,
         'phone': phoneNumber,
+        // if (fullAddress != null && fullAddress!.isNotEmpty)
+        //   'full_address': fullAddress,
         'zip': zipCode,
-        if (formatAddress != null)
-          ...formatAddress(
-            province: state,
-            province2: province,
-            sector: sector,
-            city: city,
-            street: street,
-            block: block,
-            block2: block2,
-            apartment: apartment,
-            fullAddress: fullAddress,
-            zipCode: zipCode,
-          )
       }
     };
   }

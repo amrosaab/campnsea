@@ -245,10 +245,10 @@ class CartModelShopify
     saveShippingAddress(data, selectedIsoCode);
 
     // it's a guest checkout or user not logged in
-    if (checkout?.email == null) {
-      Services().api.updateCheckoutEmail(
-          checkoutId: checkout?.id, email: address?.email ?? '');
-    }
+    // if (checkout?.email == null) {
+    //   Services().api.updateCheckoutEmail(
+    //       checkoutId: checkout?.id, email: address?.email ?? '');
+    // }
   }
 
   @override

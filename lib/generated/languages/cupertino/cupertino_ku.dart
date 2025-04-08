@@ -6,7 +6,7 @@ class CupertinoLocalizationKu extends GlobalCupertinoLocalizations {
   /// Create an instance of the translation bundle for English.
   ///
   /// For details on the meaning of the arguments, see [GlobalCupertinoLocalizations].
-  const CupertinoLocalizationKu({
+  CupertinoLocalizationKu({
     String localeName = 'ku',
     required intl.DateFormat fullYearFormat,
     required intl.DateFormat dayFormat,
@@ -17,16 +17,18 @@ class CupertinoLocalizationKu extends GlobalCupertinoLocalizations {
     required intl.DateFormat singleDigitSecondFormat,
     required intl.NumberFormat decimalFormat,
   }) : super(
-          localeName: localeName,
-          fullYearFormat: fullYearFormat,
-          dayFormat: dayFormat,
-          mediumDateFormat: mediumDateFormat,
-          singleDigitHourFormat: singleDigitHourFormat,
-          singleDigitMinuteFormat: singleDigitMinuteFormat,
-          doubleDigitMinuteFormat: doubleDigitMinuteFormat,
-          singleDigitSecondFormat: singleDigitSecondFormat,
-          decimalFormat: decimalFormat,
-        );
+      localeName: localeName,
+      fullYearFormat: fullYearFormat,
+      dayFormat: dayFormat,
+      mediumDateFormat: mediumDateFormat,
+      singleDigitHourFormat: singleDigitHourFormat,
+      singleDigitMinuteFormat: singleDigitMinuteFormat,
+      doubleDigitMinuteFormat: doubleDigitMinuteFormat,
+      singleDigitSecondFormat: singleDigitSecondFormat,
+      decimalFormat: decimalFormat,
+      weekdayFormat: intl.DateFormat.EEEE(localeName)
+
+  );
 
   String get firstPageTooltip => '';
 
@@ -165,9 +167,9 @@ class CupertinoLocalizationKu extends GlobalCupertinoLocalizations {
   // TODO: implement noSpellCheckReplacementsLabel
   String get noSpellCheckReplacementsLabel => throw UnimplementedError();
 
-  //
-  // flutter upgrade version
-  //
+  @override
+  // TODO: implement clearButtonLabel
+  String get clearButtonLabel => throw UnimplementedError();
 
   @override
   // TODO: implement lookUpButtonLabel
@@ -184,8 +186,4 @@ class CupertinoLocalizationKu extends GlobalCupertinoLocalizations {
   @override
   // TODO: implement shareButtonLabel
   String get shareButtonLabel => throw UnimplementedError();
-
-  @override
-  // TODO: implement clearButtonLabel
-  String get clearButtonLabel => throw UnimplementedError();
 }

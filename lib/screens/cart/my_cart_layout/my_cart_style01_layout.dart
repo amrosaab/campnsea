@@ -333,8 +333,7 @@ class RenderTotalPrice extends StatelessWidget {
                                     ))
                               : Text(
                                   S.of(context).startShopping.toUpperCase(),
-                                  style: style,
-                                ),
+                            style: style.copyWith(                      fontFamily: GoogleFonts.cairo().fontFamily)),
                         );
                       },
                     );

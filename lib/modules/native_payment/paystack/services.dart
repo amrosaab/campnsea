@@ -86,9 +86,9 @@ class PayStackServices {
             customerEmail: email!,
             reference: reference,
             currency: currency!,
-            amount: (double.parse(amount) * 100).toInt().toString(),
+            amount: (double.parse(amount) * 100),
             paymentChannel: ['mobile_money', 'card'],
-            transactionCompleted: () async {
+            transactionCompleted: (dd) async {
               debugPrint('Payment Successful');
               response = 'Success';
               onLoading(true);
@@ -96,11 +96,11 @@ class PayStackServices {
               onLoading(false);
               return;
             },
-            transactionNotCompleted: () {
+            transactionNotCompleted: (dd) {
               debugPrint('Payment Unsuccessful');
               response = 'Payment Unsuccessful';
               return;
-            });
+            }, callbackUrl: '');
         if (response == 'Success') {
           return;
         } else {

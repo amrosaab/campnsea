@@ -58,7 +58,7 @@ class _StoryCardState extends State<StoryCard> {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              story?.urlImage?.isURLImage ?? false
+              story?.urlImage?.isEmpty ?? false
                   ? FluxImage(
                       imageUrl: story!.urlImage!,
                       key: const ValueKey(StoryConstants.backgroundKey),
