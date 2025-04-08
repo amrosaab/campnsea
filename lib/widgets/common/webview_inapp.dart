@@ -153,7 +153,7 @@ class _WebViewInAppState extends State<WebViewInApp> {
           InAppWebView(
             key: webViewKey,
             initialUrlRequest: URLRequest(
-              url: Uri.parse(
+              url: WebUri(
                 '${widget.url}${kAdvanceConfig.alwaysClearWebViewCache ? '${widget.url.paramSymbol}dummy=${DateTime.now().millisecondsSinceEpoch}' : ''}',
               ),
               headers: widget.headers,

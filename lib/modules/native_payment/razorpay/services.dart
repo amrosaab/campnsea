@@ -20,7 +20,7 @@ class RazorUserInfo {
 }
 
 class RazorServices {
-  final razorPay = Razorpay();
+  final razorPay = Razorpay('');
   final RazorDelegate delegate;
 
   final String amount;

@@ -117,7 +117,9 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
 
 
                       ),))
-                          : Text(S.of(context).startShopping.toUpperCase()),
+                          : Text(S.of(context).startShopping.toUpperCase(),
+                      style: TextStyle(fontFamily: GoogleFonts.cairo().fontFamily),
+                      ),
                       const SizedBox(width: 3),
                       const Icon(CupertinoIcons.right_chevron, size: 12),
                     ],

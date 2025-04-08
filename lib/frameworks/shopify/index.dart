@@ -199,22 +199,23 @@ class ShopifyWidget extends BaseFrameworks
     Function? error,
   }) async {
     {
-      await shopifyService.updateCheckout(
-        checkoutId: cartModel!.checkout!.id,
-        note: cartModel.notes,
-        deliveryDate: cartModel.selectedDate?.dateTime,
-      );
+      print("cadrertrtrtttr");
+      // await shopifyService.updateCheckout(
+      //   checkoutId: cartModel!.checkout!.id,
+      //   note: cartModel.notes,
+      //   deliveryDate: cartModel.selectedDate?.dateTime,
+      // );
 
       String? orderNum;
       await FluxNavigate.push(
         MaterialPageRoute(
           builder: (context) => PaymentWebview(
-            token: cartModel.user?.cookie,
+            token: cartModel?.user?.cookie,
             onFinish: (number) async {
               // Success
               orderNum = number;
               if (number == '0') {
-                if (!cartModel.user!.isGuest) {
+                if (!cartModel!.user!.isGuest) {
                   final order = await shopifyService.getLatestOrder(
                       cookie: cartModel.user?.cookie ?? '');
                   if (order == null) return error!('Checkout failed');

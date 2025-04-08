@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutterwave_standard/core/transaction_status.dart';
-import 'package:flutterwave_standard/flutterwave.dart';
 
 import '../../../common/config.dart';
 import '../../../common/constants.dart';
@@ -49,30 +47,30 @@ class FlutterwaveServices {
         onLoading(true);
       });
 
-      final customer = Customer(
-          name: name ?? '', phoneNumber: phone ?? '', email: email ?? '');
+      // final customer = Customer(
+      //     name: name ?? '', phoneNumber: phone ?? '', email: email ?? '');
 
-      final flutterwave = Flutterwave(
-          context: context,
-          publicKey: publicKey,
-          currency: currency!,
-          redirectUrl: 'https://google.com',
-          txRef: 'WOOC_${orderId}_${DateTime.now().millisecondsSinceEpoch}',
-          amount: amount,
-          customer: customer,
-          paymentOptions: 'ussd, card, barter, payattitude',
-          customization: Customization(),
-          isTestMode: kFlutterwaveConfig['production']);
-      var response = await flutterwave.charge();
-      if (response.success == true) {
-        await _verifyPayment(response.txRef);
-        onLoading(false);
-      } else if (response.status == TransactionStatus.ERROR) {
-        onLoading(false);
-        throw 'Payment is failed';
-      } else {
-        onLoading(false);
-      }
+      // final flutterwave = Flutterwave(
+      //     context: context,
+      //     publicKey: publicKey,
+      //     currency: currency!,
+      //     redirectUrl: 'https://google.com',
+      //     txRef: 'WOOC_${orderId}_${DateTime.now().millisecondsSinceEpoch}',
+      //     amount: amount,
+      //     customer: customer,
+      //     paymentOptions: 'ussd, card, barter, payattitude',
+      //     customization: Customization(),
+      //     isTestMode: kFlutterwaveConfig['production']);
+      // var response = await flutterwave.charge();
+      // if (response.success == true) {
+      //   await _verifyPayment(response.txRef);
+      //   onLoading(false);
+      // } else if (response.status == TransactionStatus.ERROR) {
+      //   onLoading(false);
+      //   throw 'Payment is failed';
+      // } else {
+      //   onLoading(false);
+      // }
     } catch (e) {
       onLoading(false);
       if (e is PlatformException) {

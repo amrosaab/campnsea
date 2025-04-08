@@ -290,17 +290,18 @@ class Address {
   Map<String, dynamic> toShopifyJson() {
     return {
       'address': {
-        'province': state,
+        'province': state!=null&&state!.isNotEmpty?state: city,
+        // 'province': state,
         'country': country,
-        'address1':'Area: $city, area: $province,Block:${sector??''}, Street: $street, Building: $block, ${(street ?? '') == '' ? '' : 'Floor: $block2, '} ${(block2 ?? '') == '' ? '' : 'Flat: $apartment'}',
+        'address1':'Area: $city, province: $province,Block:${sector??''}, Street: $street, Building: $block, ${(street ?? '') == '' ? '' : 'Floor: $block2, '} ${(block2 ?? '') == '' ? '' : 'Flat: $apartment'}',
         'address2': '${block!}, ${block2 ?? ''}',
         'company': apartment,
         'city': city,
         'firstName': firstName,
         'lastName': lastName,
         'phone': phoneNumber,
-        if (fullAddress != null && fullAddress!.isNotEmpty)
-          'full_address': fullAddress,
+        // if (fullAddress != null && fullAddress!.isNotEmpty)
+        //   'full_address': fullAddress,
         'zip': zipCode,
       }
     };

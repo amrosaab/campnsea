@@ -177,20 +177,21 @@ class _ShippingAddressState extends State<ShippingAddress> {
       try {
         final phoneNumber =
         _textControllers[AddressFieldType.phoneNumber]?.text.trim();
-        if (phoneNumber?.isNotEmpty ?? false) {
-          initialPhoneNumber = await PhoneNumber.getParsablePhoneNumber(
-            PhoneNumber(
-              dialCode: selectedCountryModel.dialCode,
-              isoCode: selectedCountryModel.selectedIsoCode,
-              phoneNumber: phoneNumber,
-            ),
-          );
-        } else {
+        //hokshedit
+        // if (phoneNumber?.isNotEmpty ?? false) {
+        //   initialPhoneNumber = await PhoneNumber.getParsablePhoneNumber(
+        //     PhoneNumber(
+        //       dialCode: selectedCountryModel.dialCode,
+        //       isoCode: selectedCountryModel.selectedIsoCode,
+        //       phoneNumber: phoneNumber,
+        //     ),
+        //   );
+        // } else {
           initialPhoneNumber = PhoneNumber(
             dialCode: selectedCountryModel.dialCode,
             isoCode: selectedCountryModel.selectedIsoCode,
           );
-        }
+      //  }
         refresh();
       } catch (e, trace) {
         printError(e, trace);
@@ -497,7 +498,7 @@ class _ShippingAddressState extends State<ShippingAddress> {
             index == 0 && (currentFieldController?.text.isEmpty ?? false),
             textFieldController: currentFieldController,
             focusNode: currentFieldFocusNode,
-            isReadOnly: isFieldReadOnly(index),
+            // isReadOnly: isFieldReadOnly(index),
             autofillHints: currentFieldType.autofillHint != null
                 ? ['${currentFieldType.autofillHint}']
                 : null,
@@ -530,7 +531,7 @@ class _ShippingAddressState extends State<ShippingAddress> {
             onInputValidated: (value) {},
             spaceBetweenSelectorAndTextField: 0,
             selectorConfig: SelectorConfig(
-              enable: kPhoneNumberConfig.useInternationalFormat,
+              // enable: kPhoneNumberConfig.useInternationalFormat,
               showFlags: kPhoneNumberConfig.showCountryFlag,
               selectorType: kPhoneNumberConfig.selectorType,
               setSelectorButtonAsPrefixIcon:
