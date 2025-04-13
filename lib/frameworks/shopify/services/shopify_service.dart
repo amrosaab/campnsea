@@ -1221,7 +1221,9 @@ class ShopifyService extends BaseServices {
   //   }
   // }
 
-  Future<CheckoutCart> addItemsToCart(CartModelShopify cartModel) async {
+  Future<CheckoutCart> addItemsToCart(
+      CartModelShopify cartModel, )
+  async {
     final cookie = cartModel.user?.cookie;
 
     try {
@@ -1243,7 +1245,7 @@ class ShopifyService extends BaseServices {
         }
 
         // Ensure proper variant ID format
-        final merchandiseId = variant!.id!.startsWith('gid://shopify/ProductVariant/')
+        final merchandiseId = variant.id!.startsWith('gid://shopify/ProductVariant/')
             ? variant.id!
             : 'gid://shopify/ProductVariant/${variant.id}';
 
@@ -1255,11 +1257,11 @@ class ShopifyService extends BaseServices {
 
       printLog('Prepared line items: $lineItems');
 
-      // Always create a new cart (checkout) for each update
+      // Define mutation with language and country context
       final options = MutationOptions(
         document: gql('''
-        mutation createCart(\$lines: [CartLineInput!]!, \$country: CountryCode) 
-        @inContext(country: \$country) {
+        mutation createCart(\$lines: [CartLineInput!]!, \$country: CountryCode, \$language: LanguageCode)
+        @inContext(country: \$country, language: \$language) {
           cartCreate(input: {lines: \$lines}) {
             cart {
               id
@@ -1289,6 +1291,7 @@ class ShopifyService extends BaseServices {
         variables: {
           'lines': lineItems,
           'country': countryCode,
+          'language': languageCode,
         },
       );
 
@@ -1309,7 +1312,6 @@ class ShopifyService extends BaseServices {
       }
 
       return CheckoutCart.fromJsonShopify(cartData);
-
     } catch (e, stack) {
       printLog('Error in addItemsToCart: $e');
       printLog('Stack trace: $stack');
@@ -1718,6 +1720,7 @@ class ShopifyService extends BaseServices {
     );
     final result = await client.query(options);
 
+    print("proxxxxxx${result}");
     if (result.hasException) {
       printLog(result.exception.toString());
     }

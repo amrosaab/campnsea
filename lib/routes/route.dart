@@ -9,14 +9,7 @@ import '../common/tools.dart';
 import '../menu/maintab.dart';
 import '../models/brand_model.dart';
 import '../models/index.dart'
-    show
-        AppModel,
-        BackDropArguments,
-        BlogModel,
-        Product,
-        ProductModel,
-        User,
-        UserModel;
+    show AppModel, BackDropArguments, BlogModel, Product, ProductModel, StoreDetailArgument, User, UserModel;
 import '../modules/dynamic_layout/geo_search/geo_search_screen.dart';
 import '../modules/dynamic_layout/helper/helper.dart';
 import '../modules/dynamic_layout/index.dart';
@@ -81,10 +74,105 @@ class Routes {
     // AudioPlaylistScreen(audioService: injector.get()),
   };
 
+
+  checkdyniamicLink(String  url) async {
+
+    if (url.contains('/product/') ||
+        url.contains('/shop/') ||
+        url.contains('/products/')) {
+      /// Note: the deepLink URL will look like: https://mstore.io/product/stitch-detail-tunic-dress/
+      final product = await Services().api.getProductByPermalink(url);
+      print("porxxxxx${product?.id}");
+      if (product != null) {
+
+      return RouteSettings( name:RouteList.productDetail,
+         arguments: product,);
+
+      }
+
+      /// PRODUCT CATEGORY CASE
+    }
+    else if (url.contains('/product-category/') ||
+        url.contains('/collections/')) {
+      final category =
+          await Services().api.getProductCategoryByPermalink(url);
+      if (category != null) {
+
+     return   RouteSettings( name: RouteList.backdrop,
+       arguments: BackDropArguments(
+         cateId: category.id,
+         cateName: category.name,
+       ));
+
+      }
+
+      /// PRODUCT TAGS CASE
+    }
+    else if (url.contains('/product-tag/')) {
+      final slug = Uri.tryParse(url)?.pathSegments.last;
+
+      if (slug == null) throw '';
+
+      final tag = await Services().api.getTagBySlug(slug);
+      if (tag != null) {
+
+      return  RouteSettings( name:  RouteList.backdrop,
+          arguments: BackDropArguments(
+            tag: tag.id.toString(),
+
+            ));
+
+      }
+
+      /// VENDOR CASE
+    }
+    else if (url.contains('/store/')) {
+      final vendor = await Services().api.getStoreByPermalink(url);
+      if (vendor != null) {
+       return RouteSettings( name:  RouteList.storeDetail,
+          arguments: StoreDetailArgument(store: vendor),
+
+            );
+
+      }
+    }
+    else if (url.contains('/brand/')) {
+      final slug = Uri.tryParse(url)?.pathSegments.last;
+
+      if (slug == null) throw '';
+
+      final brand = await Services().api.getBrandBySlug(slug);
+      if (brand != null) {
+     return   RouteSettings( name:    RouteList.backdrop,
+          arguments: BackDropArguments(
+            brandId: brand.id,
+            brandName: brand.name,
+            brandImg: brand.image,
+          ),
+
+        );
+
+      }
+    }
+    else if (url.contains('/listing/')) {
+      var blog = await Services().api.getBlogByPermalink(url);
+      var product = await Services().api.getProduct(blog?.id);
+      if (product != null) {
+      return   RouteSettings( name:    RouteList.productDetail,
+          arguments: product,
+        );
+
+      }
+    }
+
+    return null;
+
+  }
+
   static Route getRouteGenerate(RouteSettings settings) {
     var routingData = settings.name!.getRoutingData;
 
-    printLog('[🧬Builder RouteGenerate] ${routingData.route}');
+    printLog('[🧬Builder RouteGenerate] ${settings.name}');
 
     switch (routingData.route) {
       case RouteList.backdrop:

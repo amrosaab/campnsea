@@ -64,7 +64,7 @@ class FirebaseServices extends BaseFirebaseServices {
       _firebaseCrashlytics = FirebaseCrashlyticsService()..init();
     }
 
-    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+    // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   }
  
 

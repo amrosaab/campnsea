@@ -34,8 +34,8 @@ class ShippingMethodModel extends ChangeNotifier {
         cartModel: cartModel,
         token: token,
         checkoutId: checkoutId,
-        langCode: langCode,
-        formatAddress: formatAddress ?? DefaultConfig.formatAddress,
+        // langCode: langCode,
+        // formatAddress: formatAddress ?? DefaultConfig.formatAddress,
       );
       if (kAdvanceConfig.enableDeliveryDateOnCheckout) {
         _deliveryDates = await getDelivery();

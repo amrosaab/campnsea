@@ -127,7 +127,7 @@ extension on _ShippingAddressState {
           context,
           Provider.of<CartModel>(context, listen: false),
           beforehand,
-          formatAddress: countryFields?.formatAddress,
+          // formatAddress: countryFields?.formatAddress,
         );
   }
 

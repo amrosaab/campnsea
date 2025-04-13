@@ -24,13 +24,13 @@ class DynamicLinkServiceImpl extends DynamicLinkService {
   Future<void> initUniLinks(context) async {
     // Subscribe to all events when app is started.
 // (Use allStringLinkStream to get it as [String])
-    final initialLink = await _appLinks.getInitialAppLink();
-    if (initialLink != null) {
-      await handleDynamicLink(initialLink, context);
-    }
+//     final initialLink = await _appLinks.getInitialLink();
+//     if (initialLink != null) {
+//       await handleDynamicLink(initialLink, context);
+//     }
 
-    _appLinks.allUriLinkStream.listen((uri) async {
-      await handleDynamicLink(uri, context);
+    _appLinks.uriLinkStream.listen((uri) async {
+       await handleDynamicLink(uri, context);
 
       // Do something (navigation, ...)
     });
@@ -121,13 +121,16 @@ class DynamicLinkServiceImpl extends DynamicLinkService {
       _showLoading(context);
       var url = Uri.parse(uri.path).toString();
 
+      print("hokshmaxxx${url}");
       /// PRODUCT CASE
       if (url.contains('/product/') ||
           url.contains('/shop/') ||
           url.contains('/products/')) {
         /// Note: the deepLink URL will look like: https://mstore.io/product/stitch-detail-tunic-dress/
         final product = await Services().api.getProductByPermalink(url);
+        print("porxxxxx${product?.id}");
         if (product != null) {
+
           await FluxNavigate.pushNamed(
             RouteList.productDetail,
             arguments: product,
@@ -135,7 +138,8 @@ class DynamicLinkServiceImpl extends DynamicLinkService {
         }
 
         /// PRODUCT CATEGORY CASE
-      } else if (url.contains('/product-category/') ||
+      }
+      else if (url.contains('/product-category/') ||
           url.contains('/collections/')) {
         final category =
             await Services().api.getProductCategoryByPermalink(url);
@@ -150,7 +154,8 @@ class DynamicLinkServiceImpl extends DynamicLinkService {
         }
 
         /// PRODUCT TAGS CASE
-      } else if (url.contains('/product-tag/')) {
+      }
+      else if (url.contains('/product-tag/')) {
         final slug = Uri.tryParse(url)?.pathSegments.last;
 
         if (slug == null) throw '';
@@ -166,7 +171,8 @@ class DynamicLinkServiceImpl extends DynamicLinkService {
         }
 
         /// VENDOR CASE
-      } else if (url.contains('/store/')) {
+      }
+      else if (url.contains('/store/')) {
         final vendor = await Services().api.getStoreByPermalink(url);
         if (vendor != null) {
           await FluxNavigate.pushNamed(
@@ -174,7 +180,8 @@ class DynamicLinkServiceImpl extends DynamicLinkService {
             arguments: StoreDetailArgument(store: vendor),
           );
         }
-      } else if (url.contains('/brand/')) {
+      }
+      else if (url.contains('/brand/')) {
         final slug = Uri.tryParse(url)?.pathSegments.last;
 
         if (slug == null) throw '';
@@ -190,7 +197,8 @@ class DynamicLinkServiceImpl extends DynamicLinkService {
             ),
           );
         }
-      } else if (url.contains('/listing/')) {
+      }
+      else if (url.contains('/listing/')) {
         var blog = await Services().api.getBlogByPermalink(url);
         var product = await Services().api.getProduct(blog?.id);
         if (product != null) {
@@ -199,7 +207,9 @@ class DynamicLinkServiceImpl extends DynamicLinkService {
             arguments: product,
           );
         }
-      } else {
+      }
+
+      else {
         var blog = await Services().api.getBlogByPermalink(url);
         if (blog != null) {
           await FluxNavigate.pushNamed(

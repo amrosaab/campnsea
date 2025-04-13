@@ -18,6 +18,7 @@ import '../models/entities/prediction.dart';
 import '../models/entities/stripe_payment_intent.dart';
 import '../models/entities/vacation_settings.dart';
 import '../models/index.dart';
+import '../models/vendor/store_model.dart';
 import '../modules/dynamic_layout/config/app_config.dart';
 import 'review_service.dart';
 import 'service_config.dart';
@@ -106,8 +107,7 @@ abstract class BaseServices {
     String? token,
     String? checkoutId,
     Store? store,
-    String? langCode,
-    FormatAddress? formatAddress,
+    // FormatAddress? formatAddress,
   }) =>
       null;
 

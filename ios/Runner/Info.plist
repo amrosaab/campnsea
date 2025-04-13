@@ -67,6 +67,7 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -121,6 +122,8 @@
 	<true/>
 	<key>FirebaseDeepLinkPasteboardRetrievalEnabled</key>
 	<false/>
+	 <key>FlutterDeepLinkingEnabled</key>
+     <false/>
 	<key>FirebaseScreenReportingEnabled</key>
 	<true/>
 	<key>GADApplicationIdentifier</key>

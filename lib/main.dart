@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart' as foundation;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flux_firebase/impl/firebase_crashlytics_service_impl.dart';
 import 'package:flux_firebase/index.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -19,6 +20,7 @@ import 'data/boxes.dart';
 import 'env.dart';
 import 'modules/webview/index.dart';
 import 'services/dependency_injection.dart';
+import 'services/firebase/firebase_crashlytics_service.dart';
 import 'services/locale_service.dart';
 import 'services/services.dart';
 import 'dart:isolate';
@@ -121,16 +123,16 @@ void main() {
 
     Isolate.current.addErrorListener(RawReceivePort((pair) async {
       final List<dynamic> errorAndStacktrace = pair;
-      await FirebaseCrashlytics.instance.recordError(
-        errorAndStacktrace.first,
-        errorAndStacktrace.last,
-      );
+      // await FirebaseCrashlyticsServiceImpl.instance.recordError(
+      //   errorAndStacktrace.first,
+      //   errorAndStacktrace.last,
+      // );
     }).sendPort);
 
     runApp(App(languageCode: languageCode));
   },  (error, stack) {
     printError(error, stack);
-    FirebaseCrashlytics.instance.recordError(error, stack);
+    // FirebaseCrashlytics.instance.recordError(error, stack);
   },
   );
 

@@ -4,6 +4,6 @@ class FirebaseCrashlyticsService {
   // Log some an event with a custom name
   Future<void> logCustomEvent({
     required String name,
-    Map<String, dynamic>? parameter,
+    Map<String, Object>? parameter,
   }) async {}
 }

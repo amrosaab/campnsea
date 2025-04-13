@@ -427,9 +427,9 @@ class _ShippingAddressState extends State<ShippingAddress> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>  ChooseAddressScreen((address){
-                        phoneNumecode=address!.country!;
-                        selectedCountryModel.selectedIsoCode=phoneNumecode;
+                      builder: (context) =>  ChooseAddressScreen(callback:  ( address){
+                        // phoneNumecode=address!.country!;
+                        // selectedCountryModel.selectedIsoCode=phoneNumecode;
                         _fieldsConfigs.clear();
                         _fieldsPositions.clear();
                         _textControllers.clear();
