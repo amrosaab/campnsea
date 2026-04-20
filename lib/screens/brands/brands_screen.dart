@@ -58,6 +58,8 @@ class _BrandsScreenState extends State<BrandsScreen> {
 
         List data = jsonDecode(response.body);
 
+        
+
         for (var e in data) {
           var firstLetter = e.toString()[0];
           if (!firstLetters.contains(firstLetter)) {
@@ -65,10 +67,12 @@ class _BrandsScreenState extends State<BrandsScreen> {
           }
           brandsList.add(e.toString());
           MyBrandModel.fromShopifyJson(e);
+
         }
 
         allBrandsList = brandsList;
         _isLoading = false;
+
 
         setState(() {});
       } catch (e) {
